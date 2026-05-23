@@ -1,4 +1,6 @@
 ﻿@page "/"
+@inject HttpClient Http
+@using Restaurante.Models
 
 <PageTitle>Orizon</PageTitle>
 
@@ -66,3 +68,5 @@
         <p>Nuestra historia comenzó con la promesa de traer el lujo de alta mar a la tierra firme. En este enclave privilegiado del club de yates, hemos diseñado un espacio donde la privacidad es el ingrediente principal. Orizon es el destino final de quienes saben que los mejores momentos suceden cuando el sol toca el agua y el mundo exterior desaparece.</p>
     </div>
 </div>
+
+<a href="pedidos" class="btn-outline-green">Revisar Inventario</a>

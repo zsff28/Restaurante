@@ -1,0 +1,36 @@
+﻿@page "/pedidos"
+@inject HttpClient Http
+@using Restaurante.Models
+
+<h3>Pedidos</h3>
+
+@if (product == null)
+{
+    <p>Cargando datos del clima...</p>
+}
+else
+{
+    @foreach (var item in product)
+    {
+        <p>Id: @item.Id</p>
+        <p>Nombre: @item.Nombre</p>
+        <p>Descripción: @item.Descripcion</p>
+        <p>Precio: @item.Precio</p>
+        <p>Calorías: @item.Calorias</p>
+        <p>Disponible: @item.Disponible</p>
+        <p>Categoría: @item.Categoria</p>
+        <p>Categoría ID: @item.CategoriaId</p>
+    }
+   
+}
+
+@code {
+    private List<Productos_API>? product;       // ← null al inicio, se llena después
+
+    // Se ejecuta automáticamente al cargar la página
+    protected override async Task OnInitializedAsync()
+    {
+        string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos";
+        product = await Http.GetFromJsonAsync<List<Productos_API>>(url);
+    }
+}
