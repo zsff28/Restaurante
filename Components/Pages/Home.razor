@@ -1,8 +1,8 @@
 ﻿@page "/"
-@inject HttpClient Http
-@using Restaurante.Models
 
 <PageTitle>Orizon</PageTitle>
+
+<!-- ¿Qué es orizon? Parte Pilares -->
 
 <div class="orizon-container">
     <h2>ORIZON: UNA EXPERIENCIA NÁUTICA</h2>
@@ -35,6 +35,8 @@
     </div>
 </div>
 
+<!-- Nuestra historia y Carrusel de imágenes -->
+
 <div class="container-carousel">
     <div id="carouselExampleIndicators" class="carousel slide">
         <div class="carousel-indicators">
@@ -64,9 +66,116 @@
     </div>
     <div class="cont-hist">
         <h2 class="pb-3">NUESTRA HISTORIA</h2>
-        <p class="mt-2">Hay lugares que se descubren, y otros que se conquistan. Orizon es el resultado de años de búsqueda por el escenario perfecto: el murmullo de los yates descansando en el muelle, la luz dorada reflejada en el casco de las embarcaciones y una mesa dispuesta solo para unos pocos.</p>
+        <p class="mt-4">Hay lugares que se descubren, y otros que se conquistan. Orizon es el resultado de años de búsqueda por el escenario perfecto: el murmullo de los yates descansando en el muelle, la luz dorada reflejada en el casco de las embarcaciones y una mesa dispuesta solo para unos pocos.</p>
         <p>Nuestra historia comenzó con la promesa de traer el lujo de alta mar a la tierra firme. En este enclave privilegiado del club de yates, hemos diseñado un espacio donde la privacidad es el ingrediente principal. Orizon es el destino final de quienes saben que los mejores momentos suceden cuando el sol toca el agua y el mundo exterior desaparece.</p>
     </div>
 </div>
 
-<a href="pedidos" class="btn-outline-green">Revisar Inventario</a>
+<!-- Orizon en tiempo real. Dashboard y enlaces a menú y reservación -->
+
+<div class="dashboard-section">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <p class="dashboard-subtitle">EXPERIENCIA EN TIEMPO REAL</p>
+            <h2 class="dashboard-title">ORIZON EN NÚMEROS</h2>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- Platillos Disponibles -->
+            <div class="col-md-5">
+                <div class="card-dash">
+                    <p class="card-dash-status">DISPONIBLE AHORA</p>
+                    <h3 class="card-dash-counter">24</h3>
+                    <h4 class="card-dash-label">CREACIONES DE AUTOR</h4>
+                    <p class="card-dash-description">Platillos exclusivos diseñados para la marea de hoy con pesca fresca e ingredientes locales selectos.</p>
+                    <a href="menu" class="card-dash-link">
+                        <span>EXPLORAR MENÚ</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Reservaciones confirmadas y botón enlace para reservar -->
+            <div class="col-md-5">
+                <div class="card-dash">
+                    <p class="card-dash-status">CUPO LIMITADO</p>
+                    <h3 class="card-dash-counter">15</h3>
+                    <h4 class="card-dash-label">RESERVACIONES CONFIRMADAS</h4>
+                    <p class="card-dash-description">Garantice su lugar en el muelle privado. Mantenemos un aforo estrictamente reducido para preservar la exclusividad.</p>
+                    <a href="reservar" class="card-dash-link highlight-link">
+                        <span>RESERVAR ESPACIO</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Sólo personal. Enlace a Pedidos, Clientes y Reservaciones históricas -->
+<div class="staff-management-section">
+    <div class="container py-5">
+
+        <div class="d-flex align-items-center mb-4">
+            <h2 class="staff-section-title">CONSOLA DE OPERACIONES</h2>
+            <div class="staff-divider-line ms-3 flex-grow-1"></div>
+            <span class="staff-badge ms-2">SOLO PERSONAL</span>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Card Pedidos -->
+            <div class="col-md-4">
+                <a href="pedidos" class="staff-operative-card text-decoration-none">
+                    <div class="staff-card-content">
+                        <div class="staff-icon-wrapper">
+                            <i class="bi bi-bell-fill staff-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="staff-card-label">MONITOREO DE PEDIDOS</h3>
+                            <p class="staff-card-desc">Comanda digital y cocina en tiempo real.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Clientes -->
+            <div class="col-md-4">
+                <a href="clientes" class="staff-operative-card text-decoration-none">
+                    <div class="staff-card-content">
+                        <div class="staff-icon-wrapper">
+                            <i class="bi bi-people-fill staff-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="staff-card-label">DIRECTORIO DE CLIENTES</h3>
+                            <p class="staff-card-desc">Datos de contacto de clientes.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Reservaciones -->
+            <div class="col-md-4">
+                <a href="reservaciones" class="staff-operative-card text-decoration-none">
+                    <div class="staff-card-content">
+                        <div class="staff-icon-wrapper">
+                            <i class="bi bi-journal-text staff-icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="staff-card-label">LIBRO DE RESERVACIONES</h3>
+                            <p class="staff-card-desc">Asignación de mesas y registros activos.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="mt-3 text-end">
+            <p class="staff-notice">* Para registrar una reserva telefónica a mano, use el botón "Reservar" del menú de navegación actuando en nombre del miembro.</p>
+        </div>
+
+    </div>
+</div>

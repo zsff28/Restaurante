@@ -1,0 +1,126 @@
+﻿@page "/reservar"
+
+<main class="booking-screen">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+
+                <!-- Cabecera de la Reserva -->
+                <div class="text-center mb-5">
+                    <span class="booking-subtitle">Solicitud de Acceso</span>
+                    <h1 class="booking-title">Reservar una Mesa en Orizon</h1>
+                    <p class="booking-meta-text">Exclusivo para miembros del Club de Yates e invitados selectos.</p>
+                </div>
+
+                <!-- Contenedor del Formulario -->
+                <div class="booking-card">
+                    <form id="nauticalBookingForm" autocomplete="off">
+
+                        <!-- SECCIÓN 1: Detalles de la Estancia -->
+                        <div class="form-section-divider">
+                            <span class="section-number">01</span> Detalle de la Velada
+                        </div>
+
+                        <div class="row g-4 mb-5">
+                            <!-- Campo: Fecha -->
+                            <div class="col-md-6">
+                                <div class="custom-input-group">
+                                    <label for="bookingDate" class="custom-label">Fecha de Navegación</label>
+                                    <div class="input-with-icon">
+                                        <i class="bi bi-calendar3 input-inner-icon"></i>
+                                        <input type="date" id="bookingDate" class="custom-form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Campo: Horario / Turno -->
+                            <div class="col-md-6">
+                                <div class="custom-input-group">
+                                    <label for="bookingTime" class="custom-label">Hora del Servicio</label>
+                                    <div class="input-with-icon">
+                                        <i class="bi bi-clock input-inner-icon"></i>
+                                        <select id="bookingTime" class="custom-form-select" required>
+                                            <option value="" disabled selected hidden>Seleccione el horario...</option>
+                                            <option value="19:00">19:00 hrs (Atardecer)</option>
+                                            <option value="20:30">20:30 hrs (Cena de Gala)</option>
+                                            <option value="22:00">22:00 hrs (Velada Nocturna)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Campo: Número de Comensales -->
+                            <div class="col-md-12">
+                                <div class="custom-input-group">
+                                    <label for="bookingGuests" class="custom-label">Número de Pasajeros / Comensales</label>
+                                    <div class="input-with-icon">
+                                        <i class="bi bi-person-check input-inner-icon"></i>
+                                        <select id="bookingGuests" class="custom-form-select" required>
+                                            <option value="" disabled selected hidden>Seleccione la cantidad...</option>
+                                            <option value="1-2">1 - 2 Personas (Mesa Cubierta)</option>
+                                            <option value="3-4">3 - 4 Personas (Mesa Vista Al Mar)</option>
+                                            <option value="5-6">5 - 6 Personas (Área de Capitanes)</option>
+                                            <option value="7+">Más de 6 Personas (Requiere Validación de Comité)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 2: Información de Contacto -->
+                        <div class="form-section-divider">
+                            <span class="section-number">02</span> Información del Miembro
+                        </div>
+
+                        <div class="row g-4 mb-5">
+                            <!-- Campo: Nombre Completo -->
+                            <div class="col-md-12">
+                                <div class="custom-input-group">
+                                    <label for="customerName" class="custom-label">Nombre Completo del Titular</label>
+                                    <input type="text" id="customerName" class="custom-form-control" placeholder="Ej. Cap. Alejandro Vance" required>
+                                </div>
+                            </div>
+
+                            <!-- Campo: Teléfono -->
+                            <div class="col-md-6">
+                                <div class="custom-input-group">
+                                    <label for="customerPhone" class="custom-label">Teléfono de Contacto Directo</label>
+                                    <input type="tel" id="customerPhone" class="custom-form-control" placeholder="+52 ..." required>
+                                </div>
+                            </div>
+
+                            <!-- Campo: Número de Membresía -->
+                            <div class="col-md-6">
+                                <div class="custom-input-group">
+                                    <label for="memberId" class="custom-label">ID de Miembro del Yacht Club</label>
+                                    <input type="text" id="memberId" class="custom-form-control" placeholder="YC-0000" required>
+                                </div>
+                            </div>
+
+                            <!-- Campo: Requerimientos Especiales -->
+                            <div class="col-md-12">
+                                <div class="custom-input-group">
+                                    <label for="specialRequests" class="custom-label">Preferencias Náuticas o Alergias (Opcional)</label>
+                                    <textarea id="specialRequests" class="custom-form-control" rows="3" placeholder="Ej. Mesa en terraza cerca del muelle de botes, alergias al marisco..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botón de Envío -->
+                        <div class="text-center pt-3">
+                            <button type="submit" class="btn-submit-booking">
+                                <span>Confirmar Solicitud de Reserva</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+@code {
+
+}
