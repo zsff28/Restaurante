@@ -1,7 +1,45 @@
-﻿<nav class="navbar bg-body-tertiary shadow-sm p-0">
-    <div class="container-fluid" style="background-color:#0B1D2E">
-            <a class="navbar-brand d-flex align-items-center fw-bold" href="">
-                <img src="logo.svg" alt="Logo" width="500" class="d-inline-block align-text">
+﻿<nav class="navbar shadow-sm p-0" style="background-color:#0B1D2E">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+        <!-- Izquierda: Menú y Pedidos -->
+
+        <div class="nav-block-side">
+            <ul class="nav nav-underline">
+                <li class="nav-item">
+                    <NavLink class="nav-link ms-3" href="menu">MENÚ</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="pedidos">PEDIDOS</NavLink>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Centro: Logo (Home) -->
+
+        <div class="nav-block-center mt-2 mb-2">
+            <a class="navbar-brand m-0 d-flex align-items-center" href="">
+                <img src="logo.svg" alt="Logo Orizon" class="nav-logo">
             </a>
+        </div>
+
+        <!-- Derecha: Clientes y Reservar -->
+
+        <div class="nav-block-side d-flex align-items-center justify-content-end">
+            <!-- Se separa Reservar de Clientes. -->
+            <ul class="nav align-items-center">
+                <li class="nav-item me-4">
+                    <!-- Clientes mantiene nav-underline (igual que el resto de nav-link) -->
+                    <ul class="nav nav-underline">
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="clientes">CLIENTES</NavLink>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <!-- RESERVAR con clase distinta a nav-link para mayor impacto visual -->
+                    <NavLink class="btn-nautical-reserve me-3" href="reservar">RESERVAR</NavLink>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
