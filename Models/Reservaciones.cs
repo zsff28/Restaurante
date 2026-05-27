@@ -11,6 +11,6 @@
         public virtual Cliente? Cliente { get; set; }
         public DateTime Fecha { get; set; }
         public decimal? Total { get; set; }
-        public bool Estado { get; set; }
+        public string Estado { get; set; } = "Confirmada";
     }
 }
