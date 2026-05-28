@@ -12,5 +12,4 @@
         public int CategoriaId { get; set; }
     }
 
-
 }

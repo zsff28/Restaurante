@@ -1,114 +1,105 @@
-﻿@page "/menu"
+﻿<!-- PANTALLA TERMINADA Y FUNCIONAL -->
+
+@page "/menu"
 @inject HttpClient Http
 @using Restaurante.Models
 
 <main class="menu-ocean-screen py-5">
     <div class="container">
 
-        <!-- Cabecera de la Pantalla -->
         <div class="text-center mb-5">
             <span class="menu-subtitle">Experiencia Culinaria</span>
             <h1 class="menu-main-title">La Carta</h1>
             <div class="menu-divider"></div>
         </div>
 
-        <!-- SECCIÓN: BEBIDAS FRÍAS (categoriaId: 2) -->
-        <section class="menu-category-section mb-5">
-            <h2 class="category-title">Bebidas Frías</h2>
-
-            <!-- Grid Dinámico: Aquí es donde la API inyectará los elementos -->
-            <div class="row g-4">
-
-                <!-- Platillo 1 (Agua de Horchata) -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="menu-item-card">
-                        <div class="d-flex justify-content-between align-items-baseline mb-2">
-                            <h3 class="item-name">Agua de Horchata</h3>
-                            <span class="item-price">$ 22</span>
-                        </div>
-                        <p class="item-description">Con canela, un litro.
-                        </p>
-
-                        <!-- Especificaciones del plato -->
-                        <div class="item-meta-specs d-flex gap-3 mt-3">
-                            <span class="spec-tag">
-                                <i class="bi bi-clock"></i> 2 min
-                            </span>
-                            <span class="spec-tag">
-                                <i class="bi bi-fire"></i> 120 kcal
-                            </span>
-                            <span class="status-badge status-online">
-                                <i class="bi bi-circle-fill"></i> Disponible
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Platillo 2 (Agua de Jamaica) -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="menu-item-card item-disabled">
-                        <div class="d-flex justify-content-between align-items-baseline mb-2">
-                            <h3 class="item-name">Agua de Jamaica</h3>
-                            <span class="item-price">$ 20</span>
-                        </div>
-                        <p class="item-description">Natural, un litro.</p>
-
-                        <div class="item-meta-specs d-flex gap-3 mt-3">
-                            <span class="spec-tag">
-                                <i class="bi bi-clock"></i> 2 min
-                            </span>
-                            <span class="spec-tag">
-                                <i class="bi bi-fire"></i> 45 kcal
-                            </span>
-                            <span class="status-badge status-offline">
-                                <i class="bi bi-dash-circle"></i> Agotado
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
+        @if (products == null || categorias == null)
+        {
+            <div class="spinner-container text-center">
+                <p>Cargando menú...</p>
+                <div class="spinner-border text-primary" role="status"></div>
             </div>
-        </section>
+        }
+        else
+        {
+            @foreach (var cat in categorias)
+            {
+                // Agrega a la lista platillos cuando se cumpla la condición del Where. p es un producto individual de la lista product. Si la categoría del producto coincide con el id de la categoría actual se guarda en la lista. 
+                var platillosDeEstaCategoria = products.Where(p => p.CategoriaId == cat.Id).ToList();
 
-        <!-- SECCIÓN: POSTRES (categoriaId: 5) -->
-        <section class="menu-category-section mb-5">
-            <h2 class="category-title">Postres</h2>
-            <div class="row g-4">
+                // Verifica que la lista tenga elementos
+                if (platillosDeEstaCategoria.Any())
+                {
+                    <section class="menu-category-section mb-5">
+                        <h2 class="category-title">@cat.Nombre</h2>
 
-                <!-- Platillo 3 (Arroz con leche) -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="menu-item-card">
-                        <div class="d-flex justify-content-between align-items-baseline mb-2">
-                            <h3 class="item-name">Arroz con Leche</h3>
-                            <span class="item-price">$ 30</span>
+                        <div class="row g-4">
+
+                            @foreach (var platillo in platillosDeEstaCategoria)
+                            {
+                                <div class="col-md-6 col-lg-4">
+                                    <!-- Comprueba que el platillo esté disponible. Si es true, no agrega ninguna clase, sino agrega la clase disabled -->
+                                    <div class="menu-item-card @(platillo.Disponible ? "" : "item-disabled")">
+
+                                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                            <h3 class="item-name">@platillo.Nombre</h3>
+                                            <span class="item-price">$ @platillo.Precio.ToString("F0")</span>
+                                        </div>
+
+                                        <p class="item-description">
+                                            @platillo.Descripcion
+                                        </p>
+
+                                        <div class="item-meta-specs d-flex gap-3 mt-3">
+                                            <span class="spec-tag">
+                                                <i class="bi bi-fire"></i> @platillo.Calorias kcal
+                                            </span>
+
+                                            @if (platillo.Disponible)
+                                            {
+                                                <span class="status-badge status-online">
+                                                    <i class="bi bi-circle-fill"></i> Disponible
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-badge status-offline">
+                                                    <i class="bi bi-dash-circle"></i> Agotado
+                                                </span>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+
                         </div>
-                        <p class="item-description">Con canela y pasas.</p>
-
-                        <div class="item-meta-specs d-flex gap-3 mt-3">
-                            <span class="spec-tag">
-                                <i class="bi bi-clock"></i> 2 min
-                            </span>
-                            <span class="spec-tag">
-                                <i class="bi bi-fire"></i> 260 kcal
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
+                    </section>
+                }
+            }
+        }
 
     </div>
 </main>
 
 @code {
-    /*
-    private List<Productos_API>? product;       // ← null al inicio, se llena después
+    private List<Productos_API>? products;       // ← null al inicio, se llena después
+    private List<Categorias_API>? categorias;       // ← null al inicio, se llena después
 
     // Se ejecuta automáticamente al cargar la página
     protected override async Task OnInitializedAsync()
     {
-        string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos";
-        product = await Http.GetFromJsonAsync<List<Productos_API>>(url);
-    }*/
+        try
+        {
+            string urlProductos = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos";
+            products = await Http.GetFromJsonAsync<List<Productos_API>>(urlProductos);
+            string urlCategorias = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/categorias";
+            categorias = await Http.GetFromJsonAsync<List<Categorias_API>>(urlCategorias);
+        }
+        catch (Exception ex)
+        {
+            // Manejo de errores por si alguna de las dos APIs falla
+            Console.WriteLine($"Error al recuperar los datos: {ex.Message}");
+        }
+    }
 }
