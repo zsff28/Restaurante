@@ -2,29 +2,107 @@
 @inject HttpClient Http
 @using Restaurante.Models
 
-<h3>Menu</h3>
+<main class="menu-ocean-screen py-5">
+    <div class="container">
 
-@if (product == null)
-{
-    <p>Cargando datos nuestro menú...</p>
-}
-else
-{
-    @foreach (var item in product)
-    {
-        <p>Id: @item.Id</p>
-        <p>Nombre: @item.Nombre</p>
-        <p>Descripción: @item.Descripcion</p>
-        <p>Precio: @item.Precio</p>
-        <p>Calorías: @item.Calorias</p>
-        <p>Disponible: @item.Disponible</p>
-        <p>Categoría: @item.Categoria</p>
-        <p>Categoría ID: @item.CategoriaId</p>
-    }
+        <!-- Cabecera de la Pantalla -->
+        <div class="text-center mb-5">
+            <span class="menu-subtitle">Experiencia Culinaria</span>
+            <h1 class="menu-main-title">La Carta</h1>
+            <div class="menu-divider"></div>
+        </div>
 
-}
+        <!-- SECCIÓN: BEBIDAS FRÍAS (categoriaId: 2) -->
+        <section class="menu-category-section mb-5">
+            <h2 class="category-title">Bebidas Frías</h2>
+
+            <!-- Grid Dinámico: Aquí es donde la API inyectará los elementos -->
+            <div class="row g-4">
+
+                <!-- Platillo 1 (Agua de Horchata) -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="menu-item-card">
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <h3 class="item-name">Agua de Horchata</h3>
+                            <span class="item-price">$ 22</span>
+                        </div>
+                        <p class="item-description">Con canela, un litro.
+                        </p>
+
+                        <!-- Especificaciones del plato -->
+                        <div class="item-meta-specs d-flex gap-3 mt-3">
+                            <span class="spec-tag">
+                                <i class="bi bi-clock"></i> 2 min
+                            </span>
+                            <span class="spec-tag">
+                                <i class="bi bi-fire"></i> 120 kcal
+                            </span>
+                            <span class="status-badge status-online">
+                                <i class="bi bi-circle-fill"></i> Disponible
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platillo 2 (Agua de Jamaica) -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="menu-item-card item-disabled">
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <h3 class="item-name">Agua de Jamaica</h3>
+                            <span class="item-price">$ 20</span>
+                        </div>
+                        <p class="item-description">Natural, un litro.</p>
+
+                        <div class="item-meta-specs d-flex gap-3 mt-3">
+                            <span class="spec-tag">
+                                <i class="bi bi-clock"></i> 2 min
+                            </span>
+                            <span class="spec-tag">
+                                <i class="bi bi-fire"></i> 45 kcal
+                            </span>
+                            <span class="status-badge status-offline">
+                                <i class="bi bi-dash-circle"></i> Agotado
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN: POSTRES (categoriaId: 5) -->
+        <section class="menu-category-section mb-5">
+            <h2 class="category-title">Postres</h2>
+            <div class="row g-4">
+
+                <!-- Platillo 3 (Arroz con leche) -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="menu-item-card">
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <h3 class="item-name">Arroz con Leche</h3>
+                            <span class="item-price">$ 30</span>
+                        </div>
+                        <p class="item-description">Con canela y pasas.</p>
+
+                        <div class="item-meta-specs d-flex gap-3 mt-3">
+                            <span class="spec-tag">
+                                <i class="bi bi-clock"></i> 2 min
+                            </span>
+                            <span class="spec-tag">
+                                <i class="bi bi-fire"></i> 260 kcal
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</main>
 
 @code {
+    /*
     private List<Productos_API>? product;       // ← null al inicio, se llena después
 
     // Se ejecuta automáticamente al cargar la página
@@ -32,5 +110,5 @@ else
     {
         string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos";
         product = await Http.GetFromJsonAsync<List<Productos_API>>(url);
-    }
+    }*/
 }
