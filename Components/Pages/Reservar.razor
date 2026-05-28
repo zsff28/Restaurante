@@ -1,4 +1,8 @@
 ﻿@page "/reservar"
+@rendermode InteractiveServer
+@using Restaurante.Data
+@using Restaurante.Models
+@inject RestauranteDbContext db
 
 <main class="booking-night-screen">
     <div class="container py-5">
@@ -63,5 +67,31 @@
 </main>
 
 @code {
+    // Modelos y Listas
+    private Reservacion nuevoReservacion = new Reservacion
+    {
+        //Cliente prendiente. ¿Cómo buscar el nombre pero que se guarde el id? ¿Lista desplegable?
+        Fecha = DateTime.Today.AddDays(1),
+        Total = 0,
+        //Fecha actual (valor predeterminado para el registro del cliente). Guarda la hora en 00:00:00
+    };
 
+    /*private async Task AgregarCliente()
+    {
+        if (!string.IsNullOrWhiteSpace(nuevoCliente.Nombre))
+        {
+            db.Clientes.Add(nuevoCliente);
+            await db.SaveChangesAsync();
+
+            // Reiniciar el modelo para el siguiente registro
+            nuevoCliente = new Cliente
+            {
+                Nombre = "",
+                Telefono = "",
+                Email = "",
+                //Fecha actual (valor predeterminado para el registro del cliente). Guarda la hora en 00:00:00
+                FechaRegistro = DateTime.Today,
+            };
+        }
+    }*/
 }
