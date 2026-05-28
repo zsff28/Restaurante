@@ -89,17 +89,9 @@
     // Se ejecuta automáticamente al cargar la página
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            string urlProductos = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos";
-            products = await Http.GetFromJsonAsync<List<Productos_API>>(urlProductos);
-            string urlCategorias = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/categorias";
-            categorias = await Http.GetFromJsonAsync<List<Categorias_API>>(urlCategorias);
-        }
-        catch (Exception ex)
-        {
-            // Manejo de errores por si alguna de las dos APIs falla
-            Console.WriteLine($"Error al recuperar los datos: {ex.Message}");
-        }
+        string urlProductos = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos";
+        products = await Http.GetFromJsonAsync<List<Productos_API>>(urlProductos);
+        string urlCategorias = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/categorias";
+        categorias = await Http.GetFromJsonAsync<List<Categorias_API>>(urlCategorias);
     }
 }
