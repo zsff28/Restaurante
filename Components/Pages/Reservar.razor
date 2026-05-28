@@ -1,4 +1,6 @@
-﻿@page "/reservar"
+﻿<!-- PANTALLA TERMINADA Y FUNCIONAL -->
+
+@page "/reservar"
 @rendermode InteractiveServer
 @using Restaurante.Data
 @using Restaurante.Models
@@ -18,7 +20,7 @@
 
                 <!-- Formulario -->
                 <div class="booking-night-card">
-                    <form id="bookingForm" autocomplete="off">
+                    <EditForm Model="@nuevaReservacion" id="client-RegisterForm" OnValidSubmit="AgregarReservacion" FormName="registroBookingForm">
 
                         <!-- Nombre (select) y enlace para registrar un cliente -->
                         <div class="booking-group mb-4">
@@ -31,12 +33,12 @@
                             <!-- Select para elegir nombre del cliente que hace la reservación -->
                             <div class="booking-field-wrapper">
                                 <i class="bi bi-vignette booking-icon"></i>
-                                <select id="clienteId" class="booking-control-select" required>
-                                    <option value="" disabled selected hidden>Busque por Nombre de Miembro...</option>
-                                    <option value="101">Cap. Alejandro Vance</option>
-                                    <option value="102">Sra. Elena Rostova</option>
-                                    <option value="103">Ing. Bernstein (Yacht 'Poseidon')</option>
-                                    <option value="104">Almirante Carlos Mendoza</option>
+                                <select @bind="nuevaReservacion.ClienteId" id="clienteId" class="booking-control-select" required>
+                                    <option value="0" disabled selected hidden>Busque por Nombre de Miembro...</option>
+                                    @foreach (var client in clientes)
+                                    {
+                                        <option value="@client.Id">@client.Nombre</option>
+                                    }
                                 </select>
 
                                 <i class="bi bi-chevron-down booking-icon-right"></i>
@@ -49,7 +51,7 @@
                             <label for="fecha" class="booking-label">Fecha y Hora de la Cita</label>
                             <div class="booking-field-wrapper">
                                 <i class="bi bi-calendar3-event booking-icon"></i>
-                                <input type="datetime-local" id="fecha" required>
+                                <input @bind="nuevaReservacion.Fecha" type="datetime-local" id="fecha" required>
                             </div>
                         </div>
 
@@ -58,7 +60,7 @@
                             <label for="total" class="booking-label">Valor Estimado de Consumo</label>
                             <div class="booking-field-wrapper">
                                 <span class="currency-prefix">$</span>
-                                <input type="number" id="total" class="currency-padding" placeholder="0.00" min="0" step="100">
+                                <input @bind="nuevaReservacion.Total" type="number" id="total" class="currency-padding" placeholder="0.00" min="0" step="100">
                                 <span class="currency-suffix">MXN</span>
                             </div>
                             <small class="booking-help-text">Un estimado nos ayuda a seleccionar la cava y el espacio ideal para su experiencia.</small>
@@ -71,7 +73,7 @@
                             </button>
                         </div>
 
-                    </form>
+                    </EditForm>
                 </div>
 
             </div>
@@ -81,30 +83,43 @@
 
 @code {
     // Modelos y Listas
-    private Reservacion nuevoReservacion = new Reservacion
+    private Reservacion nuevaReservacion = new Reservacion
     {
-        //Cliente prendiente. ¿Cómo buscar el nombre pero que se guarde el id? ¿Lista desplegable?
+        ClienteId = 0,
+        //Fecha actual + 1 día.
         Fecha = DateTime.Today.AddDays(1),
         Total = 0,
-        //Fecha actual (valor predeterminado para el registro del cliente). Guarda la hora en 00:00:00
     };
+    
+    /* Crea una lista vacía, new List<Cliente>(), para inicializar y evitar errores. */
+    private List<Cliente> clientes = [];
 
-    /*private async Task AgregarCliente()
+    protected override async Task OnInitializedAsync()
     {
-        if (!string.IsNullOrWhiteSpace(nuevoCliente.Nombre))
+        await CargarDatos();
+    }
+
+    private async Task CargarDatos()
+    {
+        // Se cargan las opciones, los clientes registrados, para los select
+        clientes = await db.Clientes.ToListAsync();
+    }
+
+    private async Task AgregarReservacion()
+    {
+        if (nuevaReservacion.ClienteId != 0)
         {
-            db.Clientes.Add(nuevoCliente);
+            db.Reservaciones.Add(nuevaReservacion);
             await db.SaveChangesAsync();
 
             // Reiniciar el modelo para el siguiente registro
-            nuevoCliente = new Cliente
+            nuevaReservacion = new Reservacion
             {
-                Nombre = "",
-                Telefono = "",
-                Email = "",
-                //Fecha actual (valor predeterminado para el registro del cliente). Guarda la hora en 00:00:00
-                FechaRegistro = DateTime.Today,
+                ClienteId = 0,
+                //Fecha actual + 1 día.
+                Fecha = DateTime.Today.AddDays(1),
+                Total = 0,
             };
         }
-    }*/
+    }
 }
