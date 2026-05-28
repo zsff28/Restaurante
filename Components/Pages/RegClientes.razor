@@ -1,6 +1,10 @@
-﻿@page "/regclientes"
+﻿<!-- PANTALLA TERMINADA Y FUNCIONAL -->
+
+@page "/regclientes"
+@rendermode InteractiveServer
 @using Restaurante.Data
 @using Restaurante.Models
+@inject RestauranteDbContext db
 
 <main class="customer-registration-screen">
     <div class="container py-5">
@@ -16,7 +20,7 @@
 
                 <!-- Formulario -->
                 <div class="registration-card">
-                    <form id="client-RegisterForm">
+                    <EditForm Model="@nuevoCliente" id="client-RegisterForm" OnValidSubmit="AgregarCliente" FormName="registroClienteForm">
 
                         <!-- Campos -->
                         <div class="row g-4">
@@ -27,7 +31,7 @@
                                     <label for="regName" class="reg-label">Nombre Completo</label>
                                     <div class="reg-input-wrapper">
                                         <i class="bi bi-person text-icon"></i>
-                                        <input type="text" id="regName" placeholder="Ej. Almirante Carlos Mendoza" required>
+                                        <input @bind="nuevoCliente.Nombre" type="text" id="regName" placeholder="Ej. Carlos Mendoza" required>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +42,8 @@
                                     <label for="regPhone" class="reg-label">Teléfono Particular</label>
                                     <div class="reg-input-wrapper">
                                         <i class="bi bi-telephone text-icon"></i>
-                                        <input type="tel" id="regPhone" placeholder="+52 551234 5678" pattern="^[0-9]{10}$" required>
+                                        <!-- Se usa bind-value porque RadzenMask es parte de la librería Radzen, un componente externo. Solo para los nativos se utiliza bind. -->
+                                        <RadzenMask @bind-value="nuevoCliente.Telefono" Mask="***-***-****" CharacterPattern="[0-9]" Placeholder="123-456-7890" id="regPhone" class="w-100" required />
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +54,7 @@
                                     <label for="regEmail" class="reg-label">Correo Electrónico</label>
                                     <div class="reg-input-wrapper">
                                         <i class="bi bi-envelope text-icon"></i>
-                                        <input type="email" id="regEmail" placeholder="example@orizon.com" required>
+                                        <input type="email" @bind="nuevoCliente.Email" id="regEmail" placeholder="example@orizon.com" required>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +65,7 @@
                                     <label for="regDate" class="reg-label">Fecha de Alta en Sistema</label>
                                     <div class="reg-input-wrapper">
                                         <i class="bi bi-calendar-check text-icon"></i>
-                                        <input type="date" id="regDate" class="nautical-control highlight-date" required>
+                                        <input type="date" @bind="nuevoCliente.FechaRegistro" id="regDate" required>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +78,7 @@
                             </button>
                         </div>
 
-                    </form>
+                    </EditForm>
                 </div>
 
             </div>
@@ -92,4 +97,23 @@
         //Fecha actual (valor predeterminado para el registro del cliente). Guarda la hora en 00:00:00
         FechaRegistro = DateTime.Today,
     };
+
+    private async Task AgregarCliente()
+    {
+        if (!string.IsNullOrWhiteSpace(nuevoCliente.Nombre))
+        {
+            db.Clientes.Add(nuevoCliente);
+            await db.SaveChangesAsync();
+
+            // Reiniciar el modelo para el siguiente registro
+            nuevoCliente = new Cliente
+            {
+                Nombre = "",
+                Telefono = "",
+                Email = "",
+                //Fecha actual (valor predeterminado para el registro del cliente). Guarda la hora en 00:00:00
+                FechaRegistro = DateTime.Today,
+            };
+        }
+    }
 }

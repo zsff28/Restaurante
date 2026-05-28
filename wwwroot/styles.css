@@ -520,6 +520,7 @@
 /* Estilo base inputs de este formulario */
 #client-RegisterForm input {
     width: 100%;
+    height: auto !important;
     background-color: rgba(11, 29, 46, 0.6) !important; /* Color: #0B1D2E9 ligeramente traslúcido. */
     border: 1px solid rgba(79, 109, 122, 0.4); /* Color: #4F6D7A algo traslúcido. */
     border-radius: 4px;
