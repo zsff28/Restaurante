@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Radzen;
 using Restaurante.Components;
 using Restaurante.Data;
 
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<RestauranteDbContext>(options =>
             .GetConnectionString("DefaultConnection")));
 
 builder.Services.AddHttpClient();
+//Servicios de librería Radzen
+builder.Services.AddRadzenComponents();
 
 var app = builder.Build();
 
