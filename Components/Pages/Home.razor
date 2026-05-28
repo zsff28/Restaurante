@@ -1,4 +1,6 @@
-﻿@page "/"
+﻿<!-- PANTALLA TERMINADA Y FUNCIONAL. Descomentar parte de la API -->
+
+@page "/"
 @inject HttpClient Http
 @using Restaurante.Models
 @using Restaurante.Data
@@ -93,8 +95,19 @@
             <!-- Platillos Disponibles. -->
             <div class="col-md-5">
                 <div class="card-dash">
-                    <p class="card-dash-status">DISPONIBLE AHORA</p>
-                    <h3 class="card-dash-counter"><!--productos?.Count() DESCOMENTAR-->19</h3>
+                    <h3 class="card-dash-status">DISPONIBLE AHORA</h3>
+                    <!-- Se usa el signo de pregunt en productos?.Count() para que, en caso de ser Null, no romper el programa-->
+                    <span class="card-dash-counter"> 19 
+                        <!--if (productos == null)
+                        {
+                            <span>0</span>
+                                                            }
+                        else
+                        {
+                            productos.Count();
+                        }
+-->
+                    </span>
                     <h4 class="card-dash-label">CREACIONES DE AUTOR</h4>
                     <p class="card-dash-description">Platillos exclusivos diseñados para la marea de hoy con pesca fresca e ingredientes locales selectos.</p>
                     <a href="menu" class="card-dash-link">
@@ -107,8 +120,8 @@
             <!-- Reservaciones confirmadas y botón enlace para reservar -->
             <div class="col-md-5">
                 <div class="card-dash">
-                    <p class="card-dash-status">CUPO LIMITADO</p>
-                    <h3 class="card-dash-counter">15</h3>
+                    <h3 class="card-dash-status">CUPO LIMITADO</h3>
+                    <span class="card-dash-counter"> @reservaciones.Count() </span>
                     <h4 class="card-dash-label">RESERVACIONES CONFIRMADAS</h4>
                     <p class="card-dash-description">Garantice su lugar en el muelle privado. Mantenemos un aforo estrictamente reducido para preservar la exclusividad.</p>
                     <a href="reservar" class="card-dash-link highlight-link">
@@ -189,6 +202,13 @@
 </section>
 
 @code {
+    private List<Reservacion> reservaciones = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        /* Carga los valores de la tabla de Reservaciones. */
+        reservaciones = await db.Reservaciones.ToListAsync();
+    }
     /*private List<Productos_API>? productos;       // ← null al inicio, se llena después
 
     // Se ejecuta automáticamente al cargar la página
