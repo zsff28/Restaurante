@@ -251,11 +251,11 @@
 }
 
 /* Efecto para mover la tarjeta hacia arriba */
-.card-dash:hover {
-    border-color: #A68A64;
-    box-shadow: 0 15px 35px rgba(11, 29, 46, 0.8), 0 0 15px rgba(166, 138, 100, 0.15); /* Dos sombras. La primera para dar profundidad, que parezca que el elemento flota, y la segunda para dar un brillo tipo neon.*/
-    transform: translateY(-5px);
-}
+    .card-dash:hover {
+        border-color: #A68A64;
+        box-shadow: 0 15px 35px rgba(11, 29, 46, 0.8), 0 0 15px rgba(166, 138, 100, 0.15); /* Dos sombras. La primera para dar profundidad, que parezca que el elemento flota, y la segunda para dar un brillo tipo neon. Color: #0B1D2E9*/
+        transform: translateY(-5px);
+    }
 
 .card-dash-status {
     font-family: 'Montserrat', sans-serif;
@@ -554,7 +554,7 @@
     background-color: #E6D5B8;
     border: 1px solid #E6D5B8;
     border-radius: 4px;
-    padding: 1rem 3.5rem;
+    padding: 16px 56px;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(230, 213, 184, 0.15); /* Sombra de color #E6D5B8 y traslúcida, centrada, ligeramente hacia abajo*/
     transition: all 0.4s ease;
@@ -565,4 +565,169 @@
     color: #E6D5B8;
     transform: translateY(-2px); /* Se mueve hacia arriba ligeramente*/
     box-shadow: 0 8px 25px rgba(230, 213, 184, 0.25); /* La sombra se amplía, abarca más y se difumina más pero mantiene el color y se hace ligeramente más opaca (color más intenso.*/
+}
+
+/* ===== Formulario de Reservaciones ====== */
+
+/* --- Fondo, todo el espacio del form --- */
+.booking-night-screen {
+    /* Genera un  "círculo" en la parte inferior izquierda de color #A68A64 que se difumina hasta llegar al color base #0B1D2E, el color del fondo de la página. Refleja como el brillo del Sol en el mar. */
+    background: radial-gradient(circle at bottom left, rgba(166, 138, 100, 0.08) 0%, #0B1D2E 65%);
+    background-color: #0B1D2E;
+}
+
+/* Texto superior, título y subtítulo. */
+.booking-night-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #A68A64;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.booking-night-title {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 40px;
+    letter-spacing: 2px;
+    color: #E6D5B8;
+    margin-bottom: 8px;
+}
+
+.booking-night-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #4F6D7A;
+}
+
+/* --- Tarjeta Formulario --- */
+.booking-night-card {
+    border: 1px solid rgba(166, 138, 100, 0.2); /* Color: #A68A64 casi transparente*/
+    border-radius: 4px;
+    padding: 60px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); /* Sombra hacia abajo (30px) amplia (60px) para dar sensación de volumen. Semi transparente (50%) */
+}
+
+/* --- Divs para juntar y acomodar inputs e íconos --- */
+.booking-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.booking-label {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: #E6D5B8; /* Texto de etiqueta en Arena */
+}
+
+.booking-field-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Íconos */
+.booking-field-wrapper .booking-icon {
+    position: absolute;
+    left: 16px;
+    color: #4F6D7A;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+/* Inputs */
+#bookingForm input {
+    width: 100%;
+    background-color: rgba(11, 29, 46, 0.7) !important; /* Color: #0B1D2E9 con transparencia ligera */
+    border: 1px solid rgba(166, 138, 100, 0.25); /* Color: #A68A0A transparente (25% opaco)*/
+    border-radius: 4px;
+    padding: 15px 18px 15px 50px; /* Espacio para el icono */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #E6D5B8 !important;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Al tener el foco, al hacer clic, en los inputs */
+#bookingForm input:focus {
+    border-color: #A68A64;
+    box-shadow: 0 0 12px rgba(166, 138, 100, 0.2); /* Color: #A68A0A transparente (20% opaco)*/
+}
+
+.booking-field-wrapper:focus-within .booking-icon {
+    color: #A68A64; /* El icono se vuelve del mismo color que el borde del input */
+}
+
+#bookingForm input::placeholder {
+    color: rgba(79, 109, 122, 0.5); /* Color: #4F6D7A */
+}
+
+/* --- Símbolo de pesos y MXN --- */
+
+/* $ */
+
+.currency-prefix {
+    position: absolute;
+    left: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #A68A64; /* Signo de pesos dorado */
+    pointer-events: none;
+}
+
+/* MXN */
+.currency-suffix {
+    position: absolute;
+    right: 40px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #4F6D7A;
+}
+
+/* Leyenda de "Valor Estimado" */
+
+.booking-help-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: #4F6D7A;
+    margin-top: 2px;
+}
+
+/* --- Botón para registrar reservación --- */
+
+.btn-booking-submit {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 15px;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+    color: #0B1D2E; /* Texto en Azul Abisal para máxima legibilidad */
+    background-color: #A68A64; /* Fondo Oro */
+    border: 1px solid #A68A64;
+    border-radius: 4px;
+    padding: 16px 56px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(166, 138, 100, 0.3); /* Sombra de color #E6D5B8 y traslúcida, centrada, ligeramente hacia abajo*/
+}
+
+.btn-booking-submit:hover {
+    background-color: transparent;
+    color: #A68A64;
+    border-color: #A68A64;
+    transform: translateY(-2px); /* Se mueve hacia arriba ligeramente */
+    box-shadow: 0 8px 25px rgba(166, 138, 100, 0.2); /* La sombra se amplía, abarca más y se difumina más pero mantiene el color y se hace ligeramente más opaca (color más intenso.*/
 }

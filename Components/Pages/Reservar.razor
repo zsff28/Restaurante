@@ -1,17 +1,66 @@
 ﻿@page "/reservar"
 
-<form>
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" required>
+<main class="booking-night-screen">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-xl-6">
 
-    <label for="fecha">Fecha:</label> <!-- Fecha y hora. Es una reservación, lleva fecha y hora. -->
-    <input type="datetime" id="fecha" required>
+                <!-- Cabecera de la Pantalla -->
+                <div class="text-center mb-5">
+                    <span class="booking-night-subtitle">Solicitud de Atraque</span>
+                    <h1 class="booking-night-title">Reservar una Mesa</h1>
+                    <p class="booking-night-text">Garantice su lugar en la velada de hoy. Cupo estrictamente limitado.</p>
+                </div>
 
-    <label for="total">Valor estimado de consumo:</label> <!-- Fecha y hora. Es una reservación, lleva fecha y hora. -->
-    <input type="number" id="total">
+                <!-- Contenedor del Formulario (Atmósfera Oro Viejo) -->
+                <div class="booking-night-card">
+                    <form id="bookingForm" autocomplete="off">
 
-    <button type="submit">Enviar</button>
-</form>
+                        <!-- Campo 1: Nombre Completo -->
+                        <div class="booking-group mb-4">
+                            <label for="nombre" class="booking-label">Nombre Completo del Titular</label>
+                            <div class="booking-field-wrapper">
+                                <i class="bi bi-person booking-icon"></i>
+                                <input type="text" id="nombre" placeholder="Ej. Almirante Carlos Mendoza" required>
+                            </div>
+                        </div>
+
+                        <!-- Campo 2: Fecha y Hora Combinadas -->
+                        <div class="booking-group mb-4">
+                            <label for="fecha" class="booking-label">Fecha y Hora de la Cita</label>
+                            <div class="booking-field-wrapper">
+                                <i class="bi bi-calendar3-event booking-icon"></i>
+                                <!-- Uso de datetime-local para soporte nativo moderno -->
+                                <input type="datetime-local" id="fecha" required>
+                            </div>
+                        </div>
+
+                        <!-- Campo 3: Valor Estimado de Consumo -->
+                        <div class="booking-group mb-5">
+                            <label for="total" class="booking-label">Valor Estimado de Consumo</label>
+                            <div class="booking-field-wrapper">
+                                <!-- Prefijo de moneda elegante -->
+                                <span class="currency-prefix">$</span>
+                                <input type="number" id="total" class="currency-padding" placeholder="0.00" min="0" step="100">
+                                <span class="currency-suffix">MXN</span>
+                            </div>
+                            <small class="booking-help-text">Un estimado nos ayuda a seleccionar la cava y el espacio ideal para su experiencia.</small>
+                        </div>
+
+                        <!-- Botón de Envío Premium (Sólido Oro) -->
+                        <div class="text-center">
+                            <button type="submit" class="btn-booking-submit">
+                                <span>Confirmar Reservación</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
 
 @code {
 
