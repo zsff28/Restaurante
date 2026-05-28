@@ -1,7 +1,270 @@
 ﻿@page "/pedidos"
+@rendermode InteractiveServer
+@using Restaurante.Data
+@using Restaurante.Models
+@inject RestauranteDbContext db
+@inject HttpClient Http
 
-<h3>Pedidos</h3>
+<main class="orders-screen py-5">
+    <div class="container">
+
+        <!-- Encabezado de la Pantalla -->
+        <div class="text-center mb-5">
+            <span class="orders-subtitle">Bitácora de Servicio</span>
+            <h1 class="orders-main-title">Comandas y Pedidos</h1>
+            <div class="orders-divider"></div>
+        </div>
+
+        <!-- ==========================================================================
+        PANEL SUPERIOR: FORMULARIO DE CAPTURA
+        ========================================================================== -->
+        <div class="orders-card mb-5">
+            <h2 class="panel-title mb-4"><i class="bi bi-plus-circle-fill me-2 text-gold"></i>Registrar Consumo</h2>
+
+            <form id="orderForm" autocomplete="off">
+                <div class="row g-4">
+
+                    <!-- Selector: ID Reservación -->
+                    <div class="col-md-3">
+                        <label for="reservaId" class="orders-label">Vincular Reservación</label>
+                        <div class="orders-field-wrapper">
+                            <i class="bi bi-journal-bookmark orders-icon-left"></i>
+                            <select id="reservaId" class="orders-control-select" required>
+                                <option value="" disabled selected hidden> No. Reservación</option>
+                                <option value="5001">Reserva #5001 - Mesa 4 (Mendoza)</option>
+                                <option value="5002">Reserva #5002 - Terraza 1 (Vance)</option>
+                                <option value="5003">Reserva #5003 - Interior 2 (Rostova)</option>
+                            </select>
+                            <i class="bi bi-chevron-down orders-icon-right"></i>
+                        </div>
+                    </div>
+
+                    <!-- Selector: Platillo (ID de la API) -->
+                    <div class="col-md-4">
+                        <label for="platilloId" class="orders-label">Platillo / Bebida</label>
+                        <div class="orders-field-wrapper">
+                            <select id="platilloId" class="orders-control-select" required>
+                                <option value="" disabled selected hidden>Seleccione del menú...</option>
+                                <!-- Aquí mapeas los valores que vienen de tu API del menú -->
+                                <option value="6">Agua de horchata ($22)</option>
+                                <option value="5">Agua de jamaica ($20)</option>
+                                <option value="19">Arroz con leche ($30)</option>
+                            </select>
+                            <i class="bi bi-chevron-down orders-icon-right"></i>
+                        </div>
+                    </div>
+
+                    <!-- Input: Cantidad -->
+                    <div class="col-md-2">
+                        <label for="cantidad" class="orders-label">Cantidad</label>
+                        <div class="orders-field-wrapper">
+                            <i class="bi bi-hash orders-icon-left"></i>
+                            <input type="number" id="cantidad" class="orders-control ps-5" min="1" value="1" required>
+                        </div>
+                    </div>
+
+                    <!-- Input: Precio Total (Calculado automáticamente) -->
+                    <div class="col-md-3">
+                        <label for="precioTotal" class="orders-label">Precio Total</label>
+                        <div class="orders-field-wrapper">
+                            <span class="currency-prefix">$</span>
+                            <!-- readonly para que el usuario no altere el valor calculado -->
+                            <input type="number" id="precioTotal" class="orders-control currency-padding" readonly placeholder="0.00">
+                            <span class="currency-suffix">MXN</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Botón de Envío -->
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn-orders-submit">
+                        <i class="bi bi-send-fill me-2"></i> Agregar a Comanda
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ==========================================================================
+       PANEL INFERIOR: TABLA DE ADMINISTRACIÓN (EDITAR/ELIMINAR)
+       ========================================================================== -->
+        <div class="orders-card">
+            <h2 class="panel-title mb-4"><i class="bi bi-list-stars me-2 text-gold"></i>Pedidos Activos en Sala</h2>
+
+            <div class="table-responsive">
+                <table class="table orizon-table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Reserva</th>
+                            <th scope="col">Platillo (API ID)</th>
+                            <th scope="col" class="text-center">Cantidad</th>
+                            <th scope="col" class="text-end">Total Consumido</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Fila de ejemplo 1 -->
+                        <tr>
+                            <td><span class="badge-reserva">#5001</span></td>
+                            <td>
+                                <div class="fw-bold text-navy">Agua de horchata</div>
+                                <small class="text-muted">API ID: 6</small>
+                            </td>
+                            <td class="text-center fw-semibold text-navy">2</td>
+                            <td class="text-end fw-bold text-gold">$44.00</td>
+                            <td class="text-center">
+                                <div class="btn-group-actions">
+                                    <button class="btn-action-edit" title="Editar Pedido"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn-action-delete" title="Eliminar Pedido"><i class="bi bi-trash3"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Fila de ejemplo 2 -->
+                        <tr>
+                            <td><span class="badge-reserva">#5002</span></td>
+                            <td>
+                                <div class="fw-bold text-navy">Arroz con leche</div>
+                                <small class="text-muted">API ID: 19</small>
+                            </td>
+                            <td class="text-center fw-semibold text-navy">1</td>
+                            <td class="text-end fw-bold text-gold">$30.00</td>
+                            <td class="text-center">
+                                <div class="btn-group-actions">
+                                    <button class="btn-action-edit" title="Editar Pedido"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn-action-delete" title="Eliminar Pedido"><i class="bi bi-trash3"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="orders-card mb-5 mt-5 panel-editing-mode">
+
+            <h2 class="panel-title mb-4">
+                <i class="bi bi-pencil-fill me-2 text-gold"></i> Modificar Pedido Activo
+            </h2>
+
+            <form id="orderForm" autocomplete="off">
+                <div class="row g-4">
+
+                    <div class="col-md-3">
+                        <label for="reservaId" class="orders-label">Vincular Reservación</label>
+                        <div class="orders-field-wrapper">
+                            <i class="bi bi-journal-bookmark orders-icon-left text-gold"></i>
+                            <select id="reservaId" class="orders-control-select control-editing" required>
+                                <option value="5001" selected>Reserva #5001 - Mesa 4 (Mendoza)</option>
+                            </select>
+                            <i class="bi bi-chevron-down orders-icon-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="platilloId" class="orders-label">Platillo / Bebida</label>
+                        <div class="orders-field-wrapper">
+                            <select id="platilloId" class="orders-control-select control-editing" required>
+                                <option value="6" selected>Agua de horchata ($22)</option>
+                            </select>
+                            <i class="bi bi-chevron-down orders-icon-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="cantidad" class="orders-label">Cantidad</label>
+                        <div class="orders-field-wrapper">
+                            <i class="bi bi-hash orders-icon-left text-gold"></i>
+                            <input type="number" id="cantidad" class="orders-control control-editing ps-5" min="1" value="2" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="precioTotal" class="orders-label">Precio Total</label>
+                        <div class="orders-field-wrapper">
+                            <span class="currency-prefix text-gold">$</span>
+                            <input type="number" id="precioTotal" class="orders-control currency-padding control-editing" readonly value="44.00">
+                            <span class="currency-suffix">MXN</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-4">
+                    <button type="button" class="btn-orders-cancel">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn-orders-update">
+                        <i class="bi bi-check-circle-fill me-2"></i> Actualizar Comanda
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</main>
 
 @code {
+    private bool mostrandoInput = false;
 
+    // Modelos y Listas
+    private Pedido nuevoPedido = new Pedido
+    {
+        ReservacionId = 0,
+        ProductoApiId = 0,
+        Cantidad = 0,
+        Precio = 0
+    };
+
+    private List<Reservacion> reservaciones = [];
+
+    // 1. AÑADIMOS: Una lista para renderizar los pedidos en el HTML
+    private List<Pedido> pedidos = [];
+
+    private Pedido? pedidoEdicion = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarDatos();
+    }
+
+    private async Task CargarDatos()
+    {
+        // Cargamos tanto las reservaciones como los pedidos para que la pantalla se actualice
+        reservaciones = await db.Reservaciones.ToListAsync();
+        pedidos = await db.Pedidos.ToListAsync();
+    }
+
+    private void IniciarEdicion(Pedido pedido)
+    {
+        pedidoEdicion = pedido;
+    }
+
+    private async Task GuardarEdicion()
+    {
+        if (pedidoEdicion != null)
+        {
+            await db.SaveChangesAsync();
+            pedidoEdicion = null;
+            await CargarDatos(); // Ahora sí refrescará la lista de la pantalla
+        }
+    }
+
+    private void CancelarEdicion()
+    {
+        if (pedidoEdicion != null)
+        {
+            // Revierte los cambios en memoria si el usuario cancela
+            db.Entry(pedidoEdicion).State = EntityState.Unchanged;
+            pedidoEdicion = null;
+        }
+    }
+
+    // Corregido el nombre para que coincida con tu modelo Pedido
+    private async Task EliminarPedido(Pedido pedido)
+    {
+        db.Pedidos.Remove(pedido);
+        await db.SaveChangesAsync();
+        await CargarDatos(); // Ahora sí desaparecerá de la pantalla inmediatamente
+    }
 }

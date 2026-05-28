@@ -1,0 +1,32 @@
+[
+  {
+    "id": 3,
+    "nombre": "Bebidas calientes",
+    "descripcion": "Café, té y atole"
+  },
+  {
+    "id": 2,
+    "nombre": "Bebidas frías",
+    "descripcion": "Aguas, jugos y licuados"
+  },
+  {
+    "id": 4,
+    "nombre": "Comidas",
+    "descripcion": "Platillos fuertes del mediodía"
+  },
+  {
+    "id": 1,
+    "nombre": "Desayunos",
+    "descripcion": "Platillos para el inicio del día"
+  },
+  {
+    "id": 6,
+    "nombre": "Panadería",
+    "descripcion": "Pan artesanal y de dulce"
+  },
+  {
+    "id": 5,
+    "nombre": "Postres",
+    "descripcion": "Dulces, pasteles y helados"
+  }
+]

@@ -995,3 +995,330 @@
 .item-disabled .item-price {
     color: rgba(166, 138, 100, 0.6); /* Color #A68A64 semitrasparente. Apaga levemente el precio */
 }
+
+/* ===== Pantalla de pedidos. Revisar. =====*/
+
+/* ==========================================================================
+   PANTALLA DE PEDIDOS: ESTILO NÁUTICO DE BITÁCORA Y CONTROL
+   ========================================================================== */
+
+.orders-screen {
+    background-color: #EAEFF2; /* Gris azulado náutico muy claro y limpio */
+    min-height: 100vh;
+}
+
+.orders-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #A68A64; /* Oro Viejo */
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.orders-main-title {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 2.8rem;
+    letter-spacing: 3px;
+    color: #0B1D2E; /* Azul Abisal */
+}
+
+.orders-divider {
+    width: 40px;
+    height: 2px;
+    background-color: #A68A64;
+    margin: 1.2rem auto 0;
+}
+
+/* --- Contenedores (Cards de Paneles) --- */
+.orders-card {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(79, 109, 122, 0.15);
+    border-radius: 6px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(11, 29, 46, 0.04);
+}
+
+.panel-title {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: #0B1D2E;
+}
+
+.text-gold {
+    color: #A68A64 !important;
+}
+
+/* --- Estructura de Controles e Inputs --- */
+.orders-label {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #4F6D7A; /* Azul Cadete */
+    margin-bottom: 6px;
+}
+
+.orders-field-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Controles de entrada de datos */
+.orders-control, .orders-control-select {
+    width: 100%;
+    background-color: #F8F9FA !important;
+    border: 1px solid rgba(79, 109, 122, 0.25);
+    border-radius: 4px;
+    padding: 0.75rem 1rem 0.75rem 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 0.88rem;
+    color: #0B1D2E !important;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+    /* Estilos de enfoque */
+    .orders-control:focus, .orders-control-select:focus {
+        border-color: #A68A64;
+        box-shadow: 0 0 10px rgba(166, 138, 100, 0.15);
+        background-color: #FFFFFF !important;
+    }
+
+    /* Input bloqueado (ReadOnly del Total) */
+    .orders-control[readonly] {
+        background-color: rgba(234, 239, 242, 0.5) !important;
+        border-color: rgba(79, 109, 122, 0.15);
+        color: #A68A64 !important;
+        font-weight: 700;
+    }
+
+/* Posicionamiento de Iconos del Selector */
+.orders-control-select {
+    padding-left: 2.8rem;
+    padding-right: 2.5rem;
+    appearance: none;
+}
+
+.orders-icon-left {
+    position: absolute;
+    left: 14px;
+    color: #4F6D7A;
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.orders-icon-right {
+    position: absolute;
+    right: 14px;
+    color: #A68A64;
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+/* Ajustes monetarios */
+.currency-padding {
+    padding-left: 2.2rem;
+    padding-right: 3.5rem;
+}
+
+.currency-prefix {
+    position: absolute;
+    left: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #4F6D7A;
+}
+
+.currency-suffix {
+    position: absolute;
+    right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #4F6D7A;
+}
+
+/* --- Botón Guardar (Contraste Azul Marino Premium) --- */
+.btn-orders-submit {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background-color: #0B1D2E;
+    border: 1px solid #0B1D2E;
+    border-radius: 4px;
+    padding: 0.8rem 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .btn-orders-submit:hover {
+        background-color: #A68A64;
+        border-color: #A68A64;
+    }
+
+/* ==========================================================================
+   ESTILIZACIÓN DE LA TABLA "ORIZON"
+   ========================================================================== */
+
+.orizon-table {
+    margin-bottom: 0;
+}
+
+    .orizon-table thead th {
+        font-family: 'Outfit', sans-serif;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        color: #4F6D7A;
+        background-color: #F8F9FA;
+        border-bottom: 2px solid rgba(79, 109, 122, 0.15);
+        padding: 1rem;
+    }
+
+    .orizon-table tbody td {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.88rem;
+        padding: 1.2rem 1rem;
+        border-bottom: 1px solid rgba(79, 109, 122, 0.1);
+    }
+
+.text-navy {
+    color: #0B1D2E;
+}
+
+.text-gold {
+    color: #A68A64;
+}
+
+/* Identificadores Visuales en la Tabla */
+.badge-reserva {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    background-color: rgba(11, 29, 46, 0.06);
+    color: #0B1D2E;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(11, 29, 46, 0.1);
+}
+
+/* --- Botones de Acción (Editar / Eliminar) --- */
+.btn-group-actions {
+    display: inline-flex;
+    gap: 8px;
+}
+
+.btn-action-edit, .btn-action-delete {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-action-edit {
+    color: #4F6D7A;
+    background-color: rgba(79, 109, 122, 0.06);
+}
+
+    .btn-action-edit:hover {
+        color: #0B1D2E;
+        background-color: rgba(166, 138, 100, 0.15);
+        border-color: rgba(166, 138, 100, 0.3);
+    }
+
+.btn-action-delete {
+    color: rgba(79, 109, 122, 0.6);
+}
+
+    .btn-action-delete:hover {
+        color: #D9534F; /* Rojo sofisticado desaturado solo en hover para advertencia */
+        background-color: rgba(217, 83, 79, 0.08);
+    }
+
+/* ==========================================================================
+   ESTADOS DE EDICIÓN DINÁMICA (MOCKUP / BLAZOR)
+   ========================================================================== */
+
+/* Transformación del Contenedor Superior en modo edición */
+.panel-editing-mode {
+    border-color: #A68A64 !important; /* El borde completo vira a Oro Viejo */
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 15px 40px rgba(166, 138, 100, 0.12); /* Brillo dorado tenue en la sombra */
+    animation: border-glow 2s infinite alternate ease-in-out;
+}
+
+/* Inputs enfocados en modo edición */
+.control-editing {
+    border-color: rgba(166, 138, 100, 0.5) !important;
+    background-color: #FFFFFF !important;
+}
+
+/* --- Botones del Estado de Edición --- */
+
+/* Botón Actualizar (Sólido Oro) */
+.btn-orders-update {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #0B1D2E; /* Azul Abisal para contraste */
+    background-color: #A68A64;
+    border: 1px solid #A68A64;
+    border-radius: 4px;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .btn-orders-update:hover {
+        background-color: #0B1D2E;
+        border-color: #0B1D2E;
+        color: #FFFFFF;
+    }
+
+/* Botón Cancelar (Minimalista / Transparente) */
+.btn-orders-cancel {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #4F6D7A; /* Azul Cadete */
+    background: none;
+    border: 1px solid rgba(79, 109, 122, 0.3);
+    border-radius: 4px;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .btn-orders-cancel:hover {
+        color: #0B1D2E;
+        background-color: rgba(79, 109, 122, 0.08);
+        border-color: #0B1D2E;
+    }
+
+/* --- Efecto en la fila de la tabla que está siendo editada --- */
+.row-currently-editing {
+    background-color: rgba(166, 138, 100, 0.05) !important; /* Tono champaña traslúcido en la fila */
+    border-left: 3px solid #A68A64; /* Línea testigo de oro a la izquierda */
+}
