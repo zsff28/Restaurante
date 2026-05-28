@@ -1,0 +1,95 @@
+﻿@page "/regclientes"
+@using Restaurante.Data
+@using Restaurante.Models
+
+<main class="customer-registration-screen">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+
+                <!-- Título y subtítulo para identificar cómo página de registro de clientes -->
+                <div class="text-center mb-5">
+                    <h3 class="reg-subtitle">Membresía Gastronómica</h3>
+                    <h2 class="reg-title">Registro de Miembros VIP</h2>
+                    <p class="reg-text">Forme parte del registro oficial de comensales de Orizon.</p>
+                </div>
+
+                <!-- Formulario -->
+                <div class="registration-card">
+                    <form id="client-RegisterForm">
+
+                        <!-- Campos -->
+                        <div class="row g-4">
+
+                            <!-- Nombre  -->
+                            <div class="col-md-12">
+                                <div class="reg-input-group">
+                                    <label for="regName" class="reg-label">Nombre Completo</label>
+                                    <div class="reg-input-wrapper">
+                                        <i class="bi bi-person text-icon"></i>
+                                        <input type="text" id="regName" placeholder="Ej. Almirante Carlos Mendoza" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Teléfono -->
+                            <div class="col-md-6">
+                                <div class="reg-input-group">
+                                    <label for="regPhone" class="reg-label">Teléfono Particular</label>
+                                    <div class="reg-input-wrapper">
+                                        <i class="bi bi-telephone text-icon"></i>
+                                        <input type="tel" id="regPhone" placeholder="+52 551234 5678" pattern="^[0-9]{10}$" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <div class="reg-input-group">
+                                    <label for="regEmail" class="reg-label">Correo Electrónico</label>
+                                    <div class="reg-input-wrapper">
+                                        <i class="bi bi-envelope text-icon"></i>
+                                        <input type="email" id="regEmail" placeholder="example@orizon.com" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fecha de Registro -->
+                            <div class="col-md-12">
+                                <div class="reg-input-group">
+                                    <label for="regDate" class="reg-label">Fecha de Alta en Sistema</label>
+                                    <div class="reg-input-wrapper">
+                                        <i class="bi bi-calendar-check text-icon"></i>
+                                        <input type="date" id="regDate" class="nautical-control highlight-date" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botón de Envío Formulario -->
+                        <div class="text-center pt-5">
+                            <button type="submit" class="btn-register-submit">
+                                <span>Registrarse</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+@code {
+
+    // Modelos y Listas
+    private Cliente nuevoCliente = new Cliente
+    {
+        Nombre = "",
+        Telefono = "",
+        Email = "",
+        //Fecha actual (valor predeterminado para el registro del cliente). Guarda la hora en 00:00:00
+        FechaRegistro = DateTime.Today,
+    };
+}

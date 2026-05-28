@@ -6,6 +6,6 @@
         public string Nombre { get; set; } = "";
         public string Telefono { get; set; } = "";
         public string Email { get; set; } = "";
-        public DateOnly FechaRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
     }
 }

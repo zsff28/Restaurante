@@ -385,7 +385,7 @@
     width: 40px;
     height: 40px;
     border-radius: 4px;
-    background-color: rgba(192, 214, 223, 0.1); /* Color C0D6DF */
+    background-color: rgba(192, 214, 223, 0.1); /* Color C0D6DF casi completamente transparente. */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -437,4 +437,131 @@
     margin: 0;
 }
 
-/* Form Clientes */
+/* ===== Form Clientes ===== */
+
+/* Fondo, todo el espacio del form. */
+.customer-registration-screen {
+    background: radial-gradient(circle at top right, rgba(192, 214, 223, 0.08) 0%, #0B1D2E 70%);
+    /* Genera un  "círculo" en la parte superior derecha de color #C0D6DF que se difumina hasta llegar al color base #0B1D2E, el color del fondo de la página. Refleja como el brillo del Sol en el mar. */
+    background-color: #0B1D2E;
+}
+
+/* Texto superior, título y subtítulo. */
+.reg-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #C0D6DF;
+    margin-bottom: 10px;
+}
+
+.reg-title {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 40px;
+    letter-spacing: 2px;
+    color: #E6D5B8;
+    margin-bottom: 8px;
+}
+
+.reg-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #4F6D7A;
+}
+
+/* --- Tarjeta Formulario --- */
+.registration-card {
+    border: 1px solid rgba(192, 214, 223, 0.2); /* Color #C0D6DF con transparencia (20% del color). */
+    border-radius: 4px;
+    padding: 50px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); /* Sombra hacia abajo (30px) amplia (60px) para dar sensación de volumen. 40% del color. */
+}
+
+/* --- Inputs y Labels --- */
+.reg-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.reg-label {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: #C0D6DF;
+}
+
+.reg-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.reg-input-wrapper .text-icon {
+    position: absolute;
+    left: 16px;
+    color: #4F6D7A;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+/* Cuando el div tiene el foco cambia de color y se le añade una pequeña sombra. El ícono cambia de color también. */
+.reg-input-wrapper:focus-within .text-icon {
+    color: #C0D6DF;
+}
+
+/* Estilo base inputs de este formulario */
+#client-RegisterForm input {
+    width: 100%;
+    background-color: rgba(11, 29, 46, 0.6) !important; /* Color: #0B1D2E9 ligeramente traslúcido. */
+    border: 1px solid rgba(79, 109, 122, 0.4); /* Color: #4F6D7A algo traslúcido. */
+    border-radius: 4px;
+    padding: 15px 16px 15px 50px; /* Espacio para el ícono */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #E6D5B8 !important;
+    outline: none; /* Elimina borde por defecto del navegador */
+    transition: all 0.3s ease;
+}
+
+#client-RegisterForm input::placeholder {
+    color: rgba(192, 214, 223, 0.25); /* Color #C0D6DF40 con 25% de opacidad (tenue) */
+}
+
+/* Foco en los input */
+#client-RegisterForm input:focus {
+    border-color: #C0D6DF;
+    box-shadow: 0 0 10px rgba(192, 214, 223, 0.15);
+}
+
+/* --- Botón de Registro --- */
+.btn-register-submit {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 15px;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+    color: #0B1D2E;
+    background-color: #E6D5B8;
+    border: 1px solid #E6D5B8;
+    border-radius: 4px;
+    padding: 1rem 3.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(230, 213, 184, 0.15); /* Sombra de color #E6D5B8 y traslúcida, centrada, ligeramente hacia abajo*/
+    transition: all 0.4s ease;
+}
+
+.btn-register-submit:hover {
+    background-color: transparent;
+    color: #E6D5B8;
+    transform: translateY(-2px); /* Se mueve hacia arriba ligeramente*/
+    box-shadow: 0 8px 25px rgba(230, 213, 184, 0.25); /* La sombra se amplía, abarca más y se difumina más pero mantiene el color y se hace ligeramente más opaca (color más intenso.*/
+}
