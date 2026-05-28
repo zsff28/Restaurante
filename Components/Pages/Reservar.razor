@@ -9,41 +9,54 @@
         <div class="row justify-content-center">
             <div class="col-lg-7 col-xl-6">
 
-                <!-- Cabecera de la Pantalla -->
+                <!-- Título y subtítulo para identificar cómo página de Reservaciones -->
                 <div class="text-center mb-5">
                     <span class="booking-night-subtitle">Solicitud de Atraque</span>
                     <h1 class="booking-night-title">Reservar una Mesa</h1>
                     <p class="booking-night-text">Garantice su lugar en la velada de hoy. Cupo estrictamente limitado.</p>
                 </div>
 
-                <!-- Contenedor del Formulario (Atmósfera Oro Viejo) -->
+                <!-- Formulario -->
                 <div class="booking-night-card">
                     <form id="bookingForm" autocomplete="off">
 
-                        <!-- Campo 1: Nombre Completo -->
+                        <!-- Nombre (select) y enlace para registrar un cliente -->
                         <div class="booking-group mb-4">
-                            <label for="nombre" class="booking-label">Nombre Completo del Titular</label>
-                            <div class="booking-field-wrapper">
-                                <i class="bi bi-person booking-icon"></i>
-                                <input type="text" id="nombre" placeholder="Ej. Almirante Carlos Mendoza" required>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label for="clienteId" class="booking-label">Seleccionar Miembro (Titular)</label>
+                                <a href="regClientes" class="booking-shortcut-link">
+                                    <i class="bi bi-person-plus-fill"></i> Nuevo Cliente
+                                </a>
                             </div>
+                            <!-- Select para elegir nombre del cliente que hace la reservación -->
+                            <div class="booking-field-wrapper">
+                                <i class="bi bi-vignette booking-icon"></i>
+                                <select id="clienteId" class="booking-control-select" required>
+                                    <option value="" disabled selected hidden>Busque por Nombre de Miembro...</option>
+                                    <option value="101">Cap. Alejandro Vance</option>
+                                    <option value="102">Sra. Elena Rostova</option>
+                                    <option value="103">Ing. Bernstein (Yacht 'Poseidon')</option>
+                                    <option value="104">Almirante Carlos Mendoza</option>
+                                </select>
+
+                                <i class="bi bi-chevron-down booking-icon-right"></i>
+                            </div>
+                            <small class="booking-help-text">Si su nombre no aparece, regístrese en la opción de Nuevo Cliente.</small>
                         </div>
 
-                        <!-- Campo 2: Fecha y Hora Combinadas -->
+                        <!-- Fecha y hora de la reservación -->
                         <div class="booking-group mb-4">
                             <label for="fecha" class="booking-label">Fecha y Hora de la Cita</label>
                             <div class="booking-field-wrapper">
                                 <i class="bi bi-calendar3-event booking-icon"></i>
-                                <!-- Uso de datetime-local para soporte nativo moderno -->
                                 <input type="datetime-local" id="fecha" required>
                             </div>
                         </div>
 
-                        <!-- Campo 3: Valor Estimado de Consumo -->
+                        <!-- Valor Estimado de Consumo -->
                         <div class="booking-group mb-5">
                             <label for="total" class="booking-label">Valor Estimado de Consumo</label>
                             <div class="booking-field-wrapper">
-                                <!-- Prefijo de moneda elegante -->
                                 <span class="currency-prefix">$</span>
                                 <input type="number" id="total" class="currency-padding" placeholder="0.00" min="0" step="100">
                                 <span class="currency-suffix">MXN</span>
@@ -51,7 +64,7 @@
                             <small class="booking-help-text">Un estimado nos ayuda a seleccionar la cava y el espacio ideal para su experiencia.</small>
                         </div>
 
-                        <!-- Botón de Envío Premium (Sólido Oro) -->
+                        <!-- Botón de Envío -->
                         <div class="text-center">
                             <button type="submit" class="btn-booking-submit">
                                 <span>Confirmar Reservación</span>

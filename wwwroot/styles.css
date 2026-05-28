@@ -614,6 +614,7 @@
 }
 
 /* --- Divs para juntar y acomodar inputs e íconos --- */
+
 .booking-group {
     display: flex;
     flex-direction: column;
@@ -644,7 +645,73 @@
     transition: color 0.3s ease;
 }
 
+/* Enlace Registro Nuevo Cliente */
+
+.booking-shortcut-link {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #A68A64;
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(166, 138, 100, 0.4); /* Dashed: Raya punteada. Color: #A68A64 algo traslúcido */
+    padding-bottom: 2px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.booking-shortcut-link:hover {
+    color: #E6D5B8;
+    border-bottom-color: #E6D5B8;
+}
+
+/* Select para menú desplegale */
+
+.booking-control-select {
+    width: 100%;
+    background-color: rgba(11, 29, 46, 0.7) !important;
+    border: 1px solid rgba(166, 138, 100, 0.25); /* Color: #A68A64 muy transparente. */
+    border-radius: 4px;
+    padding: 15px 40px 15px 48px; /* Espacio para icono izquierdo y flecha derecha */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #E6D5B8 !important;
+    outline: none; /* Quita la linea automática alrededor del input que se genera con focus*/
+    appearance: none; /* Eliminar flecha por defecto del sistema operativo */
+    transition: all 0.3s ease;
+}
+
+/* Focus en select */
+.booking-control-select:focus {
+    border-color: #A68A64;
+    box-shadow: 0 0 12px rgba(166, 138, 100, 0.2);  /* Color: #A68A64 muy transparente. */
+}
+
+/* Opciones desplegables */
+.booking-control-select option {
+    background-color: #0B1D2E;
+    color: #E6D5B8;
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Flecha de lista desplegable */
+.booking-icon-right {
+    position: absolute;
+    right: 16px;
+    color: #A68A64;
+    font-size: 15px;
+    pointer-events: none;
+}
+
+.booking-field-wrapper:focus-within .booking-icon-right {
+    /* Cambia el color de la flecha, el ícono, al estar el foco en cualquier elemento del wrapper*/
+    color: #E6D5B8;
+}
+
 /* Inputs */
+
 #bookingForm input {
     width: 100%;
     background-color: rgba(11, 29, 46, 0.7) !important; /* Color: #0B1D2E9 con transparencia ligera */
