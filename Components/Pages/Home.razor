@@ -1,4 +1,6 @@
 ﻿@page "/"
+@inject HttpClient Http
+@using Restaurante.Models
 
 <PageTitle>Orizon</PageTitle>
 
@@ -90,7 +92,7 @@
             <div class="col-md-5">
                 <div class="card-dash">
                     <p class="card-dash-status">DISPONIBLE AHORA</p>
-                    <h3 class="card-dash-counter">24</h3>
+                    <h3 class="card-dash-counter"><!--productos?.Count() DESCOMENTAR-->19</h3>
                     <h4 class="card-dash-label">CREACIONES DE AUTOR</h4>
                     <p class="card-dash-description">Platillos exclusivos diseñados para la marea de hoy con pesca fresca e ingredientes locales selectos.</p>
                     <a href="menu" class="card-dash-link">
@@ -183,3 +185,14 @@
 
     </div>
 </section>
+
+@code {
+    /*private List<Productos_API>? productos;       // ← null al inicio, se llena después
+
+    // Se ejecuta automáticamente al cargar la página
+    protected override async Task OnInitializedAsync()
+    {
+        string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos/disponibles";
+        productos = await Http.GetFromJsonAsync<List<Productos_API>>(url);
+    }*/
+}
