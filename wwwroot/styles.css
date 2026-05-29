@@ -744,7 +744,7 @@
 
 /* $ */
 
-.currency-prefix {
+.currency-prefix-res {
     position: absolute;
     left: 16px;
     font-family: 'Montserrat', sans-serif;
@@ -754,7 +754,7 @@
 }
 
 /* MXN */
-.currency-suffix {
+.currency-suffix-res {
     position: absolute;
     right: 40px;
     font-family: 'Outfit', sans-serif;

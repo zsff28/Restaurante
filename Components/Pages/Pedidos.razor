@@ -1,4 +1,6 @@
-﻿@page "/pedidos"
+﻿<!-- TERMINADA Y FUNCIONANDO -->
+
+@page "/pedidos"
 @rendermode InteractiveServer
 @using Restaurante.Data
 @using Restaurante.Models
@@ -15,9 +17,7 @@
             <div class="orders-divider"></div>
         </div>
 
-        <!-- ==========================================================================
-        PANEL SUPERIOR: FORMULARIO DE CAPTURA
-        ========================================================================== -->
+        <!-- Formulario para agregar un nuevo pedido -->
         <div class="orders-card mb-5">
             <h2 class="panel-title mb-4"><i class="bi bi-plus-circle-fill me-2 text-gold"></i>Registrar Consumo</h2>
 
@@ -67,13 +67,13 @@
                         </div>
                     </div>
 
-                    <!-- Input: Precio Total (Calculado automáticamente) -->
+                    <!-- Precio total -->
                     <div class="col-md-3">
                         <label for="precioTotal" class="orders-label">Precio Total</label>
                         <div class="orders-field-wrapper">
                             <span class="currency-prefix">$</span>
-                            <!-- readonly para que el usuario no altere el valor calculado -->
-                            <input type="number" value="@PrecioTotal" id="precioTotal" class="orders-control currency-padding" readonly>
+                            <!-- No se edita el precio, se calcula, muestra y guarda -->
+                            <input type="number" value="@PrecioTotalNuevo" id="precioTotal" class="orders-control currency-padding" readonly>
                             <span class="currency-suffix">MXN</span>
                         </div>
                     </div>
@@ -152,76 +152,90 @@
                 </div>
             }
         }
+        
+        @if (pedidoEdicion != null)
+        {
+            <div class="orders-card mb-5 mt-5 panel-editing-mode" onsubmit="@GuardarEdicion">
 
-        <div class="orders-card mb-5 mt-5 panel-editing-mode">
+                <h2 class="panel-title mb-4">
+                    <i class="bi bi-pencil-fill me-2 text-gold"></i> Modificar Pedido
+                </h2>
 
-            <h2 class="panel-title mb-4">
-                <i class="bi bi-pencil-fill me-2 text-gold"></i> Modificar Pedido Activo
-            </h2>
+                <form id="orderForm" >
+                    <div class="row g-4">
 
-            <form id="orderForm" autocomplete="off">
-                <div class="row g-4">
-
-                    <div class="col-md-3">
-                        <label for="reservaId" class="orders-label">Vincular Reservación</label>
-                        <div class="orders-field-wrapper">
-                            <i class="bi bi-journal-bookmark orders-icon-left text-gold"></i>
-                            <select id="reservaId" class="orders-control-select control-editing" required>
-                                <option value="5001" selected>Reserva #5001 - Mesa 4 (Mendoza)</option>
-                            </select>
-                            <i class="bi bi-chevron-down orders-icon-right"></i>
+                        <!-- Input Reservación -->
+                        <div class="col-md-3">
+                            <label for="reservaId" class="orders-label">Vincular Reservación</label>
+                            <div class="orders-field-wrapper">
+                                <i class="bi bi-journal-bookmark orders-icon-left text-gold"></i>
+                                <select id="reservaId" class="orders-control-select" @bind="pedidoEdicion.ReservacionId" required>
+                                    <option value="0" disabled selected hidden>No. Reservación</option>
+                                    @foreach (var res in reservaciones)
+                                    {
+                                        <option value="@res.Id">Reserva #@res.Id</option>
+                                    }
+                                </select>
+                                <i class="bi bi-chevron-down orders-icon-right"></i>
+                            </div>
                         </div>
+
+                        <div class="col-md-4">
+                            <label for="platilloId" class="orders-label">Platillo / Bebida</label>
+                            <div class="orders-field-wrapper">
+                                <select id="platilloId" class="orders-control-select" @bind="pedidoEdicion.ProductoApiId" required>
+                                    <option value="0" disabled selected hidden>Seleccione del menú...</option>
+                                    @if (products != null)
+                                    {
+                                        @foreach (var prod in products)
+                                        {
+                                            <option value="@prod.Id">@prod.Nombre </option>
+                                        }
+                                    }
+                                </select>
+                                <i class="bi bi-chevron-down orders-icon-right"></i>
+                            </div>
+                        </div>
+
+                        <!-- Cantidad del producto -->
+                        <div class="col-md-2">
+                            <label for="cantidad" class="orders-label">Cantidad</label>
+                            <div class="orders-field-wrapper">
+                                <i class="bi bi-hash orders-icon-left text-gold"></i>
+                                <input type="number" @bind-value="pedidoEdicion.Cantidad" id="cantidad" class="orders-control ps-5" min="1" @bind-value:event="oninput" required>
+                            </div>
+                        </div>
+
+                        <!-- Precio total, no editable -->
+                        <div class="col-md-3">
+                            <label for="precioTotal" class="orders-label">Precio Total</label>
+                            <div class="orders-field-wrapper">
+                                <span class="currency-prefix text-gold">$</span>
+                                <input type="number" value="@PrecioTotalEdicion" id="precioTotal" class="orders-control currency-padding" readonly>
+                                <span class="currency-suffix">MXN</span>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="col-md-4">
-                        <label for="platilloId" class="orders-label">Platillo / Bebida</label>
-                        <div class="orders-field-wrapper">
-                            <select id="platilloId" class="orders-control-select control-editing" required>
-                                <option value="6" selected>Agua de horchata ($22)</option>
-                            </select>
-                            <i class="bi bi-chevron-down orders-icon-right"></i>
-                        </div>
+                    <div class="d-flex justify-content-end gap-3 mt-4">
+                        <button type="button" class="btn-orders-cancel" @onclick="CancelarEdicion">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="btn-orders-update" @onclick="GuardarEdicion">
+                            <i class="bi bi-check-circle-fill me-2"></i> Actualizar Comanda
+                        </button>
                     </div>
-
-                    <div class="col-md-2">
-                        <label for="cantidad" class="orders-label">Cantidad</label>
-                        <div class="orders-field-wrapper">
-                            <i class="bi bi-hash orders-icon-left text-gold"></i>
-                            <input type="number" id="cantidad" class="orders-control control-editing ps-5" min="1" value="2" required>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="precioTotal" class="orders-label">Precio Total</label>
-                        <div class="orders-field-wrapper">
-                            <span class="currency-prefix text-gold">$</span>
-                            <input type="number" id="precioTotal" class="orders-control currency-padding control-editing" readonly value="44.00">
-                            <span class="currency-suffix">MXN</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="d-flex justify-content-end gap-3 mt-4">
-                    <button type="button" class="btn-orders-cancel">
-                        Cancelar
-                    </button>
-
-                    <button type="submit" class="btn-orders-update">
-                        <i class="bi bi-check-circle-fill me-2"></i> Actualizar Comanda
-                    </button>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+        }
 
     </div>
 </main>
 
 @code {
-    private bool mostrandoInput = false;
-
     // Para iniciar edición.
-
     private Pedido? pedidoEdicion = null;
 
     // Modelos y Listas
@@ -234,26 +248,22 @@
     };
 
     private List<Productos_API>? products;
-
     private List<Reservacion> reservaciones = [];
-
     private List<Pedido> pedidos = [];
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            //Pruebas cuando API no está disponible. Comentar cuando ya esté disponible.
+            // Pruebas cuando API no está disponible. Comentar cuando ya esté disponible.
             string url = "https://localhost:7244/data/platillosDisponibles.json";
 
-            //API a descomentar cuando estén disponibles.
-            //string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos/disponibles";
-
+            // API a descomentar cuando estén disponibles.
+            // string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos/disponibles";
             products = await Http.GetFromJsonAsync<List<Productos_API>>(url);
         }
         catch (Exception ex)
         {
-            // Manejo de errores por si la API falla
             Console.WriteLine($"Error al recuperar los datos: {ex.Message}");
         }
         await CargarDatos();
@@ -261,40 +271,34 @@
 
     private async Task CargarDatos()
     {
-        // Cargamos tanto las reservaciones como los pedidos para que la pantalla se actualice
         reservaciones = await db.Reservaciones.ToListAsync();
-        pedidos = await db.Pedidos.ToListAsync();
-    }
-
-    
-    //---- Nuevo pedido ---
-
-    //Calcula el precio total del pedido (precio del producto de la api x cantidad del producto)
-    private decimal PrecioTotal
-    {
-        get
-        {
-            // Se busca el producto en la lista de productos de la API. Si la lista no está vacía, se busca el primer producto de la API cuyo Id coincida con el Id registrado en ProductoApiId.
-            var producto = products?.FirstOrDefault(p => p.Id == nuevoPedido.ProductoApiId);
-
-            // Si no existe, el total es 0. Si sí existe, hace la multiplicación.
-            return producto == null ? 0.00m : nuevoPedido.Cantidad * producto.Precio;
-        }
+        // 💡 Usamos AsNoTracking para evitar que EF bloquee o choque al editar los objetos en memoria
+        pedidos = await db.Pedidos.AsNoTracking().ToListAsync();
     }
 
     private async Task CargarPedidos()
     {
-        pedidos = await db.Pedidos.ToListAsync();
+        // 💡 Mismo ajuste aquí para mantener la consistencia en las recargas
+        pedidos = await db.Pedidos.AsNoTracking().ToListAsync();
+    }
+
+    // ---- Nuevo pedido ---
+    private decimal PrecioTotalNuevo
+    {
+        get
+        {
+            var producto = products?.FirstOrDefault(p => p.Id == nuevoPedido.ProductoApiId);
+            return producto == null ? 0.00m : nuevoPedido.Cantidad * producto.Precio;
+        }
     }
 
     private async Task AgregarPedido()
     {
         if (nuevoPedido.ReservacionId != 0 && nuevoPedido.ProductoApiId != 0)
         {
-            nuevoPedido.Precio = PrecioTotal;
+            nuevoPedido.Precio = PrecioTotalNuevo;
 
             db.Pedidos.Add(nuevoPedido);
-
             await db.SaveChangesAsync();
 
             await CargarPedidos();
@@ -307,22 +311,89 @@
                 Cantidad = 1,
                 Precio = 0.0m
             };
+
+            StateHasChanged();
         }
     }
 
     // ---- Edición de pedido ----
+    private decimal PrecioTotalEdicion
+    {
+        get
+        {
+            if (pedidoEdicion != null)
+            {
+                var producto = products?.FirstOrDefault(p => p.Id == pedidoEdicion.ProductoApiId);
+                return producto == null ? 0.00m : pedidoEdicion.Cantidad * producto.Precio;
+            }
+            return 0.0m;
+        }
+    }
 
     private void EditarPedido(Pedido pedido)
     {
-        pedidoEdicion = pedido;
+        // 💡 Clonamos el objeto para que si el usuario escribe y luego cancela,
+        // la tabla no muestre los datos "falsos" modificados antes de guardarse en la BD.
+        pedidoEdicion = new Pedido
+        {
+            Id = pedido.Id,
+            ReservacionId = pedido.ReservacionId,
+            ProductoApiId = pedido.ProductoApiId,
+            Cantidad = pedido.Cantidad,
+            Precio = pedido.Precio
+        };
+    }
+
+    private async Task GuardarEdicion()
+    {
+        if (pedidoEdicion != null)
+        {
+            try
+            {
+                // 1. 💡 REGLA DE ORO: Guardamos el precio calculado en la edición antes de enviar a la BD
+                pedidoEdicion.Precio = PrecioTotalEdicion;
+
+                // 2. Le decimos a EF que actualice este objeto modificado
+                db.Pedidos.Update(pedidoEdicion);
+                await db.SaveChangesAsync();
+
+                // 3. Salimos del modo edición
+                pedidoEdicion = null;
+
+                // 4. Recargamos la tabla con los datos reales
+                await CargarPedidos();
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al guardar edición: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task CancelarEdicion()
+    {
+        // 💡 Como usamos AsNoTracking y clonamos el objeto al editar, cancelar es tan fácil
+        // como destruir la copia temporal y volver a cargar los datos limpios de la BD.
+        pedidoEdicion = null;
+        await CargarPedidos();
+        StateHasChanged();
     }
 
     // ---- Eliminar registro ----
-
     private async Task EliminarPedido(Pedido pedido)
     {
-        db.Pedidos.Remove(pedido);
-        await db.SaveChangesAsync();
-        await CargarPedidos();
+        try
+        {
+            // 💡 Por seguridad, le decimos a EF que remueva basándose en el ID del objeto
+            db.Pedidos.Remove(pedido);
+            await db.SaveChangesAsync();
+            await CargarPedidos();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al eliminar: {ex.Message}");
+        }
     }
 }
