@@ -6,6 +6,7 @@
 @using Restaurante.Models
 @inject RestauranteDbContext db
 @inject HttpClient Http
+@inject IJSRuntime JS
 
 <main class="orders-screen py-5">
     <div class="container">
@@ -383,6 +384,11 @@
     // ---- Eliminar registro ----
     private async Task EliminarPedido(Pedido pedido)
     {
+        bool seguro = await JS.InvokeAsync<bool>("confirm", $"¿Seguro que desea eliminar el pedido?");
+
+        // Si el usuario presiona "Cancelar", 'seguro' será false y el código se detiene aquí
+        if (!seguro) return;
+
         try
         {
             // 💡 Por seguridad, le decimos a EF que remueva basándose en el ID del objeto
