@@ -996,7 +996,7 @@
     color: rgba(166, 138, 100, 0.6); /* Color #A68A64 semitrasparente. Apaga levemente el precio */
 }
 
-/* ===== Pantalla de pedidos. Revisar. =====*/
+/* ===== Pantalla de pedidos. =====*/
 
 /* ==========================================================================
    PANTALLA DE PEDIDOS: ESTILO NÁUTICO DE BITÁCORA Y CONTROL
@@ -1833,4 +1833,311 @@
         color: #0B1D2E;
         background-color: rgba(79, 109, 122, 0.05);
         border-color: rgba(11, 29, 46, 0.3);
+    }
+
+/* ==== Página Clientes. Donde se muestran todos los clientes ==== */
+
+/* ==========================================================================
+   PANTALLA: DIRECTORIO DE CLIENTES (ESTILO BITÁCORA NÁUTICA)
+   ========================================================================== */
+
+/* Subtítulo técnico superior */
+.view-meta-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #A68A64; /* Oro Viejo */
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.view-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #0B1D2E; /* Azul Abisal */
+    font-weight: 700;
+}
+
+.view-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+}
+
+/* Tarjeta Base de la Tabla */
+.orizon-client-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(11, 29, 46, 0.08);
+    border-radius: 6px;
+    box-shadow: 0 12px 35px rgba(11, 29, 46, 0.03);
+    overflow: hidden;
+}
+
+/* Reestilización de la Tabla */
+.orizon-custom-table {
+    margin-bottom: 0;
+}
+
+.orizon-custom-table thead th {
+    font-family: 'Outfit', sans-serif;
+    background-color: #F8F9FA;
+    color: #4F6D7A; /* Azul Cadete */
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 2px solid rgba(11, 29, 46, 0.05);
+}
+
+.orizon-custom-table tbody tr {
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid rgba(11, 29, 46, 0.04);
+}
+
+.orizon-custom-table tbody tr:hover {
+    background-color: rgba(166, 138, 100, 0.02); /* Destello Champaña ultra sutil */
+}
+
+.orizon-custom-table tbody td {
+    padding: 1.2rem 1.5rem;
+}
+
+/* Etiquetas de ID de Cliente */
+.client-id-tag {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: #4F6D7A;
+    background-color: rgba(79, 109, 122, 0.08);
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.client-main-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: #0B1D2E;
+    font-size: 0.95rem;
+}
+
+/* Datos de Contacto y Registro */
+.contact-item {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.88rem;
+    color: #2C3E50;
+    font-weight: 500;
+}
+
+.text-gold {
+    color: #A68A64 !important;
+}
+
+.registration-date {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: #0B1D2E;
+    font-weight: 500;
+}
+
+/* Botones de Acciones en la Fila */
+.client-actions-wrapper {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.btn-client-edit, .btn-client-delete {
+    background: none;
+    border: 1px solid transparent;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.btn-client-edit {
+    color: #4F6D7A;
+}
+
+.btn-client-edit:hover {
+    color: #A68A64;
+    background-color: rgba(166, 138, 100, 0.1);
+    border-color: rgba(166, 138, 100, 0.15);
+}
+
+.btn-client-delete {
+    color: rgba(79, 109, 122, 0.5);
+}
+
+.btn-client-delete:hover {
+    color: #C0392B;
+    background-color: rgba(231, 76, 60, 0.08);
+    border-color: rgba(231, 76, 60, 0.15);
+}
+
+/* Botón de Registro Superior */
+.btn-orizon-action {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    background-color: #0B1D2E;
+    color: #FFFFFF;
+    border: 1px solid #0B1D2E;
+    padding: 0.75rem 1.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-orizon-action:hover {
+    background-color: #A68A64;
+    border-color: #A68A64;
+    color: #0B1D2E;
+}
+
+/* ===== Formulario Edición de Clientes ===== */
+
+.orizon-client-edit-card {
+    background: #FFFFFF;
+    border: 1px solid #A68A64; /* Línea de enfoque Oro Viejo para indicar mutabilidad */
+    border-radius: 6px;
+    box-shadow: 0 20px 45px rgba(11, 29, 46, 0.06);
+    padding: 2.2rem;
+    max-width: 1200px; /* Limita la expansión para mantener proporciones elegantes */
+    margin: 0 auto; /* Centrado en pantallas ultra-wide */
+}
+
+/* Identificador visual del panel náutico */
+.edit-header .edit-nav-indicator {
+    width: 3px;
+    height: 38px;
+    background-color: #0B1D2E; /* Azul Abisal */
+    margin-right: 14px;
+    border-radius: 1px;
+}
+
+.edit-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #0B1D2E;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.edit-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2px;
+}
+
+/* Estructuración de Labels y Wrappers */
+.form-orizon-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #4F6D7A; /* Azul Cadete */
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    display: block;
+}
+
+.form-orizon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Controles de Entrada (Inputs) */
+.form-orizon-control {
+    width: 100%;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.7rem 1rem 0.7rem 2.8rem; /* Padding izquierdo ensanchado para el icono */
+    color: #0B1D2E;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(11, 29, 46, 0.12);
+    border-radius: 4px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Estado de foco controlado para edición */
+.input-edit-focus {
+    border-color: rgba(166, 138, 100, 0.3);
+}
+
+.form-orizon-control:focus {
+    outline: none;
+    border-color: #A68A64; /* Oro Viejo al enfocar */
+    box-shadow: 0 0 0 3px rgba(166, 138, 100, 0.08);
+}
+
+/* Iconos de Acompañamiento */
+.form-orizon-icon-left {
+    position: absolute;
+    left: 1.1rem;
+    color: #A68A64; /* Contraste en Oro */
+    font-size: 0.95rem;
+    pointer-events: none;
+}
+
+/* Estilización para el botón nativo del selector de fechas (Cross-Browser) */
+.form-orizon-control[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0; /* Ocultamos el icono nativo pero mantenemos su zona de clic */
+}
+
+/* --- Botonera del Formulario --- */
+
+/* Guardar (Estilo Sólido Azul Naval) */
+.btn-orizon-accent {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background-color: #0B1D2E;
+    border: 1px solid #0B1D2E;
+    border-radius: 4px;
+    padding: 0.75rem 1.8rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+    .btn-orizon-accent:hover {
+        background-color: #A68A64;
+        border-color: #A68A64;
+        color: #0B1D2E;
+    }
+
+/* Cancelar (Estilo Neutro/Limpio) */
+.btn-orizon-secondary {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: #4F6D7A;
+    background: transparent;
+    border: 1px solid rgba(79, 109, 122, 0.2);
+    border-radius: 4px;
+    padding: 0.75rem 1.8rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+    .btn-orizon-secondary:hover {
+        color: #0B1D2E;
+        background-color: rgba(79, 109, 122, 0.05);
+        border-color: rgba(11, 29, 46, 0.25);
     }
