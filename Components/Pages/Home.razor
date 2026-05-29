@@ -204,17 +204,25 @@
 @code {
     private List<Reservacion> reservaciones = [];
 
+    private List<Productos_API>? productos;       // ← null al inicio, se llena después
+
     // Se ejecuta automáticamente al cargar la página
     protected override async Task OnInitializedAsync()
     {
-        /* Carga los valores de la tabla de Reservaciones. */
-        reservaciones = await db.Reservaciones.ToListAsync();
-        //string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos/disponibles";
+        try
+        {
+            /* Carga los valores de la tabla de Reservaciones. */
+            reservaciones = await db.Reservaciones.ToListAsync();
+            //string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos/disponibles";
 
-        //Pruebas cuando API no está disponible. Comentar cuando esté disponible.
-        string url = $"https://localhost:7244/data/platillosDisponibles.json";
+            //Pruebas cuando API no está disponible. Comentar cuando esté disponible.
+            string url = $"https://localhost:7244/data/platillosDisponibles.json";
 
-        productos = await Http.GetFromJsonAsync<List<Productos_API>>(url);
+            productos = await Http.GetFromJsonAsync<List<Productos_API>>(url);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al recuperar los datos: {ex.Message}");
+        }
     }
-    private List<Productos_API>? productos;       // ← null al inicio, se llena después
 }

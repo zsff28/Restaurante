@@ -28,6 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Revisa que la lista exista y que no esté vacía (0 elementos) -->
                     @if (listaReservaciones == null || !listaReservaciones.Any())
                     {
                         <tr>
@@ -168,19 +169,18 @@
 
     private async Task CargarReservaciones()
     {
-        // Cargamos rastreando los objetos normales, pero incluyendo la tabla Cliente
+        // Se cargan los valores de Reservaciones pero también incluyendo, por cada reservación, el nombre del cliente de la tabla de clientes (usar un JOIN en SQL).
         listaReservaciones = await db.Reservaciones.Include(r => r.Cliente).ToListAsync();
     }
 
-    // Este método se debe vincular al botón de la fila de tu tabla: @onclick="() => IniciarEdicion(res)"
     private void IniciarEdicion(Reservacion res)
     {
-        // Clonamos para proteger la UI de ediciones fantasma si el usuario cancela
+        // Se maneja una nueva reservación para, en caso de cancelar, solo destruirla. No se tocan los datos de la db ahora.
         reservacionEdicion = new Reservacion
         {
             Id = res.Id,
             ClienteId = res.ClienteId,
-            Cliente = res.Cliente, // Mantenemos la referencia al cliente para el input readonly
+            Cliente = res.Cliente, // Referencia de cliente.
             Fecha = res.Fecha,
             Total = res.Total,
             Estado = res.Estado
@@ -189,25 +189,25 @@
 
     private async Task GuardarEdicion()
     {
+        //Si se está editando...
         if (reservacionEdicion != null)
         {
             try
             {
-                // Buscamos la entidad original rastreada en el contexto por su ID
+                // Se busca el id de la reservación que se está editando (el original, no el registro "copiado") y se guarda en la variable. Con FindAsync se busca la reservación primero en la memoria caché.
                 var original = await db.Reservaciones.FindAsync(reservacionEdicion.Id);
                 
                 if (original != null)
                 {
-                    // Traspasamos los valores modificados del formulario al registro original
+                    // Los valores modificados se copian en el original.
                     original.Fecha = reservacionEdicion.Fecha;
                     original.Total = reservacionEdicion.Total;
                     original.Estado = reservacionEdicion.Estado;
 
-                    // Guardamos cambios de forma segura
                     await db.SaveChangesAsync();
                 }
 
-                // Cerramos formulario y refrescamos la tabla
+                // Se cierra el formulario, se refresca la tabla y se informa del cambio, volviéndose a renderizar.
                 reservacionEdicion = null;
                 await CargarReservaciones();
                 StateHasChanged();
@@ -221,7 +221,7 @@
 
     private void CancelarEdicion()
     {
-        // Simplemente destruimos la copia temporal, cerrando el formulario de inmediato
+        // Se destruye la copia original y se cierra el form
         reservacionEdicion = null;
         StateHasChanged();
     }
@@ -235,6 +235,7 @@
 
         db.Reservaciones.Remove(res);
         await db.SaveChangesAsync();
-        await CargarReservaciones(); // Actualiza la tabla automáticamente
+        await CargarReservaciones();
+        StateHasChanged();// Actualiza la tabla automáticamente
     }
 }

@@ -260,7 +260,9 @@
             string url = "https://localhost:7244/data/platillosDisponibles.json";
 
             // API a descomentar cuando estén disponibles.
-            // string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos/disponibles";
+            //string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos/disponibles";
+
+            //Con HTTPCLIENT, inyectado arriba, envia una petición GET a la API. Deserializa, pasa de texto plano a objetos de la clase Productos_API y guarda la lista generada en products.
             products = await Http.GetFromJsonAsync<List<Productos_API>>(url);
         }
         catch (Exception ex)
@@ -273,35 +275,46 @@
     private async Task CargarDatos()
     {
         reservaciones = await db.Reservaciones.ToListAsync();
-        // 💡 Usamos AsNoTracking para evitar que EF bloquee o choque al editar los objetos en memoria
+
+        // Tenía problemas que rompían la aplicación o hacía que funcionara mal (por el cálculo del precio). .AsNoTracking evita que EFCore vigile los cambios. Se utiliza, después, una variable para edición donde se guardan temporalmente los datos y, después, se guardan en la db. 
         pedidos = await db.Pedidos.AsNoTracking().ToListAsync();
     }
 
     private async Task CargarPedidos()
     {
-        // 💡 Mismo ajuste aquí para mantener la consistencia en las recargas
+        // Mismo cambio aquí por la misma razón.
         pedidos = await db.Pedidos.AsNoTracking().ToListAsync();
     }
 
     // ---- Nuevo pedido ---
     private decimal PrecioTotalNuevo
     {
+        //Solo lectura, sin set. Se actualiza cuando se actualiza la cantidad de productos.
         get
         {
+            // Se revisa si es null. Si no, se busca el primer producto de la lista products donde el id de dicho producto sea igual al id del producto registrado en el campo ProductoApiId del pedido.
             var producto = products?.FirstOrDefault(p => p.Id == nuevoPedido.ProductoApiId);
+
+            // Si el producto es null, es 0. Sino, se multiplica la cantidad de productos por el costo del producto.
             return producto == null ? 0.00m : nuevoPedido.Cantidad * producto.Precio;
         }
     }
 
     private async Task AgregarPedido()
     {
+        //Si no hay una reservación seleccionada o si no hay ningún producto (igual a 0, se valida que sea diferente), no se hace nada.
         if (nuevoPedido.ReservacionId != 0 && nuevoPedido.ProductoApiId != 0)
         {
+            // Cálculo anterior del precio*cantidad de productos
             nuevoPedido.Precio = PrecioTotalNuevo;
 
+            // Se agrega el seguimiento a este nuevo pedido (agrega una etiqueta para que dbcontext la reconozca y se inserten los datos en la siguiente línea)
             db.Pedidos.Add(nuevoPedido);
+            
+            //Hace la sentencia SQL para hacer los cambios.
             await db.SaveChangesAsync();
 
+            //Espera a que la lista vuelva a cargarse.
             await CargarPedidos();
 
             // Reiniciar el modelo para el siguiente registro
@@ -313,17 +326,23 @@
                 Precio = 0.0m
             };
 
+            // Informa que se hizo cambios
             StateHasChanged();
         }
     }
 
     // ---- Edición de pedido ----
+
+    //Se utiliza otro para edición porque, si se usara el mismo método, no se considera la cantidad que se está editando.
+
     private decimal PrecioTotalEdicion
     {
+        //Igual que con el otro.
         get
         {
             if (pedidoEdicion != null)
             {
+                //Hace el mismo cálculo de nuevo pero con la cantidad editada
                 var producto = products?.FirstOrDefault(p => p.Id == pedidoEdicion.ProductoApiId);
                 return producto == null ? 0.00m : pedidoEdicion.Cantidad * producto.Precio;
             }
@@ -333,8 +352,7 @@
 
     private void EditarPedido(Pedido pedido)
     {
-        // 💡 Clonamos el objeto para que si el usuario escribe y luego cancela,
-        // la tabla no muestre los datos "falsos" modificados antes de guardarse en la BD.
+        // Se utiliza una copia de Pedido para guardar, temporalmente, los datos. Si sí se quiere guardar la edición, se hace la actualización. Si no, se borra.
         pedidoEdicion = new Pedido
         {
             Id = pedido.Id,
@@ -351,17 +369,17 @@
         {
             try
             {
-                // 1. 💡 REGLA DE ORO: Guardamos el precio calculado en la edición antes de enviar a la BD
+                // Se guarda el precio calculado de edición
                 pedidoEdicion.Precio = PrecioTotalEdicion;
 
-                // 2. Le decimos a EF que actualice este objeto modificado
+                // Se marca que el objeto se editó (lo marca como cambiado, no como nuevo como lo hace con Add; sustitución manual para el tracker que si quitó con AsNoTracking) y se genera la sentencia SQL
                 db.Pedidos.Update(pedidoEdicion);
                 await db.SaveChangesAsync();
 
-                // 3. Salimos del modo edición
+                // Se cierra la edición.
                 pedidoEdicion = null;
 
-                // 4. Recargamos la tabla con los datos reales
+                // Espera a que se recarge la tabla y se informa del cambio.
                 await CargarPedidos();
                 StateHasChanged();
             }
@@ -374,8 +392,7 @@
 
     private async Task CancelarEdicion()
     {
-        // 💡 Como usamos AsNoTracking y clonamos el objeto al editar, cancelar es tan fácil
-        // como destruir la copia temporal y volver a cargar los datos limpios de la BD.
+        //Solo se destruye la copia temporal. No se guarda en la db.
         pedidoEdicion = null;
         await CargarPedidos();
         StateHasChanged();
@@ -391,7 +408,7 @@
 
         try
         {
-            // 💡 Por seguridad, le decimos a EF que remueva basándose en el ID del objeto
+            // Elimina el objeto seleccionado.
             db.Pedidos.Remove(pedido);
             await db.SaveChangesAsync();
             await CargarPedidos();

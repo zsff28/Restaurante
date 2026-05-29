@@ -2052,7 +2052,8 @@
 }
 
 /* Controles de Entrada (Inputs) */
-.form-orizon-control {
+
+.form-orizon-wrapper input {
     width: 100%;
     font-family: 'Outfit', sans-serif;
     font-size: 0.9rem;
@@ -2060,19 +2061,15 @@
     color: #0B1D2E;
     background-color: #FFFFFF;
     border: 1px solid rgba(11, 29, 46, 0.12);
+    border-color: rgba(166, 138, 100, 0.3) !important;
     border-radius: 4px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Estado de foco controlado para edición */
-.input-edit-focus {
-    border-color: rgba(166, 138, 100, 0.3);
-}
-
-.form-orizon-control:focus {
-    outline: none;
-    border-color: #A68A64; /* Oro Viejo al enfocar */
-    box-shadow: 0 0 0 3px rgba(166, 138, 100, 0.08);
+.form-orizon-wrapper input:focus {
+    outline: none !important;
+    border-color: #A68A64 !important; /* Oro Viejo al enfocar */
+    box-shadow: 0 0 0 3px rgba(166, 138, 100, 0.08) !important;
 }
 
 /* Iconos de Acompañamiento */

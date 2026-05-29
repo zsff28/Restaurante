@@ -37,7 +37,7 @@
                         <tr>
                             <td colspan="6" class="text-center py-4">
                                 <div class="spinner-border text-primary" role="status"></div>
-                                <p class="text-muted mt-2">Cargando directorio del Yacht Club...</p>
+                                <p class="text-muted mt-2">Cargando clientes de Orizon...</p>
                             </td>
                         </tr>
                     }
@@ -45,7 +45,7 @@
                     {
                         <tr>
                             <td colspan="6" class="text-center text-muted py-4">
-                                No hay miembros VIP registrados en el directorio.
+                                No hay miembros registrados en el directorio.
                             </td>
                         </tr>
                     }
@@ -54,6 +54,7 @@
                         @foreach (var cliente in listaClientes)
                         {
                             <tr>
+                                <!-- Formatea la salida para que sean 4 dígitos, agregando 0 a la izquierda por estética. -->
                                 <td><span class="client-id-tag">#@cliente.Id.ToString("D4")</span></td>
                                 <td>
                                     <div class="client-profile-box d-flex align-items-center">
@@ -64,7 +65,7 @@
                                 </td>
                                 <td>
                                     <span class="contact-item">
-                                        <i class="bi bi-telephone text-gold me-2"></i>@(string.IsNullOrWhiteSpace(cliente.Telefono) ? "Sin Teléfono" : cliente.Telefono)
+                                        <i class="bi bi-telephone text-gold me-2"></i>@cliente.Telefono
                                     </span>
                                 </td>
                                 <td>
@@ -73,13 +74,16 @@
                                     </span>
                                 </td>
                                 <td>
+                                    <!-- Formatea el la fecha de salida para mostrarse como dia mes, año, agregando al día un 0 si la fecha es de un dígito (queda de dos siempre), además de mostrar la abreviatura del mes. -->
                                     <div class="registration-date">@cliente.FechaRegistro.ToString("dd MMM, yyyy")</div>
                                 </td>
                                 <td class="text-end">
                                     <div class="client-actions-wrapper">
+                                        <!-- Botón para editar registro de cliente -->
                                         <button class="btn-client-edit" title="Editar Expediente" @onclick="() => EditarExpediente(cliente)">
                                             <i class="bi bi-pencil"></i>
                                         </button>
+                                        <!-- Botón para eliminar registro de cliente -->
                                         <button class="btn-client-delete" title="Dar de Baja" @onclick="() => DarDeBajaCliente(cliente)">
                                             <i class="bi bi-trash3"></i>
                                         </button>
@@ -94,7 +98,7 @@
     </div>
 </div>
 
-<!-- Formulario de Edición de Expedientes VIP (Compacto y Centrado) -->
+<!-- Formulario de Edición de Expedientes -->
 @if (clienteEdicion != null)
 {
     <div class="orizon-client-edit-card mt-5 mb-5">
@@ -114,7 +118,7 @@
                     <div class="form-orizon-wrapper">
                         <i class="bi bi-person-vcard form-orizon-icon-left"></i>
                         <input type="text" id="editClientName" class="form-orizon-control input-edit-focus"
-                            @bind-value="clienteEdicion.Nombre" required>
+                            @bind="clienteEdicion.Nombre" required>
                     </div>
                 </div>
 
@@ -122,8 +126,8 @@
                     <label for="editClientPhone" class="form-orizon-label">Teléfono de Contacto</label>
                     <div class="form-orizon-wrapper">
                         <i class="bi bi-telephone form-orizon-icon-left"></i>
-                        <input type="tel" id="editClientPhone" class="form-orizon-control input-edit-focus"
-                            @bind-value="clienteEdicion.Telefono" required>
+                        <!-- Sincroniza la propiedad interna value de Radzen. Como es una librería externa, utiliza bind-value y no solo bind (forma abreviada de bind-value) -->
+                        <RadzenMask @bind-value="clienteEdicion.Telefono" Mask="***-***-****" CharacterPattern="[0-9]" id="editClientPhone" class="w-100" required />
                     </div>
                 </div>
 
@@ -131,8 +135,7 @@
                     <label for="editClientEmail" class="form-orizon-label">Correo Electrónico</label>
                     <div class="form-orizon-wrapper">
                         <i class="bi bi-envelope form-orizon-icon-left"></i>
-                        <input type="email" id="editClientEmail" class="form-orizon-control input-edit-focus text-lowercase"
-                            @bind-value="clienteEdicion.Email" required>
+                        <input type="email" id="editClientEmail" class="form-orizon-control input-edit-focus text-lowercase" @bind="clienteEdicion.Email" required>
                     </div>
                 </div>
 
@@ -141,7 +144,7 @@
                     <div class="form-orizon-wrapper">
                         <i class="bi bi-calendar-check form-orizon-icon-left"></i>
                         <input type="date" id="editClientRegDate" class="form-orizon-control input-edit-focus"
-                            @bind-value="clienteEdicion.FechaRegistro" required>
+                            @bind="clienteEdicion.FechaRegistro" required>
                     </div>
                 </div>
 
@@ -151,8 +154,8 @@
                 <button type="button" class="btn-orizon-secondary" @onclick="CancelarEdicion">
                     Cancelar Cambios
                 </button>
-                <button type="submit" class="btn-orizon-accent">
-                    <i class="bi bi-person-check-fill me-2"></i> Actualizar Matrícula
+                <button type="submit" class="btn-orizon-accent" @onclick="GuardarEdicion"> 
+                    Actualizar
                 </button>
             </div>
         </form>
@@ -160,10 +163,13 @@
 }
 
 @code {
+    //Variable para verificar si se está editando
     private Cliente? clienteEdicion = null;
 
+    //Nueva lista de objetos de cliente
     private List<Cliente> listaClientes = [];
 
+    //Se ejecuta cuando el componente se carga.
     protected override async Task OnInitializedAsync()
     {
         await CargarClientes();
@@ -171,14 +177,14 @@
 
     private async Task CargarClientes()
     {
-        // Cargamos la lista completa rastreando los objetos (Clásico)
+        // Se carga la lista completa de la base de datos en listaClientes. Con el await la aplicación no se congela, se carga la lista y luego continúa con el código.
         listaClientes = await db.Clientes.ToListAsync();
     }
 
 
     private void EditarExpediente(Cliente cliente)
     {
-        // Clonamos el cliente para que los cambios en pantalla no afecten la lista global prematuramente
+        // Se clona el cliente para que los cambios en pantalla no afecten la lista global prematuramente
         clienteEdicion = new Cliente
         {
             Id = cliente.Id,
@@ -195,22 +201,22 @@
         {
             try
             {
-                // Buscamos el registro real rastreado por el contexto
+                // Se busca el id del cliente que se está editando (el original, no el registro "copiado") y se guarda en la variable. Con FindAsync se busca el cliente primero en la memoria caché.
                 var clienteOriginal = await db.Clientes.FindAsync(clienteEdicion.Id);
 
                 if (clienteOriginal != null)
                 {
-                    // Traspasamos los valores actualizados del formulario
+                    // Se copian los valores actualizados del formulario al cliente original
                     clienteOriginal.Nombre = clienteEdicion.Nombre;
                     clienteOriginal.Telefono = clienteEdicion.Telefono;
                     clienteOriginal.Email = clienteEdicion.Email;
                     clienteOriginal.FechaRegistro = clienteEdicion.FechaRegistro;
 
-                    // Guardamos físicamente en la base de datos
+                    // Detecta los cambios y genera el SQL para guardar en la base de datos
                     await db.SaveChangesAsync();
                 }
 
-                // Reseteamos la variable para ocultar el formulario y recargamos la lista
+                // Se oculta el formulario, cargan los clientes de nuevo y se informa que el estado del servidor ha cambiado.
                 clienteEdicion = null;
                 await CargarClientes();
                 StateHasChanged();
@@ -224,7 +230,7 @@
 
     private void CancelarEdicion()
     {
-        // Al igualar a null, cerramos el formulario de inmediato ignorando los cambios escritos
+        // Se cierra el formulario y se olvida la edición, nada se guarda.
         clienteEdicion = null;
         StateHasChanged();
     }
@@ -238,11 +244,11 @@
 
         try
         {
-            // Remueve el cliente directamente aprovechando el rastreo activo de EF
+            // Elimina el cliente directamente
             db.Clientes.Remove(cliente);
             await db.SaveChangesAsync();
 
-            // Recargamos la lista para actualizar la tabla al instante
+            // Se recarga la lista.
             await CargarClientes();
             StateHasChanged();
         }
