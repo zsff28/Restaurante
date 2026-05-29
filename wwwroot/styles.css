@@ -1989,6 +1989,7 @@
     padding: 0.75rem 1.6rem;
     border-radius: 4px;
     cursor: pointer;
+    text-decoration: none;
     transition: all 0.25s ease;
 }
 

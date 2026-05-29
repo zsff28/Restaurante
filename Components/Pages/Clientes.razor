@@ -3,6 +3,7 @@
 @using Restaurante.Models
 @using Restaurante.Data
 @inject RestauranteDbContext db
+@inject IJSRuntime JS
 
 <div class="container-fluid px-4 py-5">
 
@@ -12,6 +13,9 @@
             <h1 class="view-title m-0">Directorio de Clientes VIP</h1>
             <p class="view-subtitle text-muted m-0">Historial de miembros exclusivos y tripulación registrada</p>
         </div>
+        <a href="/regClientes" class="btn-orizon-action">
+            <i class="bi bi-person-plus-fill me-2"></i> Registrar Miembro
+        </a>
     </div>
 
     <div class="orizon-client-card">
@@ -94,7 +98,6 @@
 @if (clienteEdicion != null)
 {
     <div class="orizon-client-edit-card mt-5 mb-5">
-
         <div class="edit-header d-flex align-items-center mb-4">
             <div class="edit-nav-indicator"></div>
             <div>
@@ -111,7 +114,7 @@
                     <div class="form-orizon-wrapper">
                         <i class="bi bi-person-vcard form-orizon-icon-left"></i>
                         <input type="text" id="editClientName" class="form-orizon-control input-edit-focus"
-                               @bind-value="clienteEdicion.Nombre" required>
+                            @bind-value="clienteEdicion.Nombre" required>
                     </div>
                 </div>
 
@@ -120,7 +123,7 @@
                     <div class="form-orizon-wrapper">
                         <i class="bi bi-telephone form-orizon-icon-left"></i>
                         <input type="tel" id="editClientPhone" class="form-orizon-control input-edit-focus"
-                               @bind-value="clienteEdicion.Telefono" required>
+                            @bind-value="clienteEdicion.Telefono" required>
                     </div>
                 </div>
 
@@ -129,7 +132,7 @@
                     <div class="form-orizon-wrapper">
                         <i class="bi bi-envelope form-orizon-icon-left"></i>
                         <input type="email" id="editClientEmail" class="form-orizon-control input-edit-focus text-lowercase"
-                               @bind-value="clienteEdicion.Email" required>
+                            @bind-value="clienteEdicion.Email" required>
                     </div>
                 </div>
 
@@ -138,7 +141,7 @@
                     <div class="form-orizon-wrapper">
                         <i class="bi bi-calendar-check form-orizon-icon-left"></i>
                         <input type="date" id="editClientRegDate" class="form-orizon-control input-edit-focus"
-                               @bind-value="clienteEdicion.FechaRegistro" required>
+                            @bind-value="clienteEdicion.FechaRegistro" required>
                     </div>
                 </div>
 
@@ -228,6 +231,11 @@
 
     private async Task DarDeBajaCliente(Cliente cliente)
     {
+        bool seguro = await JS.InvokeAsync<bool>("confirm", $"¿Seguro que desea eliminar a {cliente.Nombre}?");
+
+        // Si el usuario presiona "Cancelar", 'seguro' será false y el código se detiene aquí
+        if (!seguro) return;
+
         try
         {
             // Remueve el cliente directamente aprovechando el rastreo activo de EF
