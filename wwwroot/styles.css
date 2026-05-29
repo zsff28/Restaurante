@@ -1316,9 +1316,3 @@
         background-color: rgba(79, 109, 122, 0.08);
         border-color: #0B1D2E;
     }
-
-/* --- Efecto en la fila de la tabla que está siendo editada --- */
-.row-currently-editing {
-    background-color: rgba(166, 138, 100, 0.05) !important; /* Tono champaña traslúcido en la fila */
-    border-left: 3px solid #A68A64; /* Línea testigo de oro a la izquierda */
-}

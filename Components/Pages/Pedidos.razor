@@ -21,45 +21,49 @@
         <div class="orders-card mb-5">
             <h2 class="panel-title mb-4"><i class="bi bi-plus-circle-fill me-2 text-gold"></i>Registrar Consumo</h2>
 
-            <form id="orderForm" autocomplete="off">
+            <form id="orderForm" onsubmit="@AgregarPedido">
                 <div class="row g-4">
 
-                    <!-- Selector: ID Reservación -->
+                    <!-- Select vincular ID de reservación -->
                     <div class="col-md-3">
                         <label for="reservaId" class="orders-label">Vincular Reservación</label>
                         <div class="orders-field-wrapper">
                             <i class="bi bi-journal-bookmark orders-icon-left"></i>
-                            <select id="reservaId" class="orders-control-select" required>
-                                <option value="" disabled selected hidden> No. Reservación</option>
-                                <option value="5001">Reserva #5001 - Mesa 4 (Mendoza)</option>
-                                <option value="5002">Reserva #5002 - Terraza 1 (Vance)</option>
-                                <option value="5003">Reserva #5003 - Interior 2 (Rostova)</option>
+                            <select id="reservaId" class="orders-control-select" @bind="nuevoPedido.ReservacionId" required>
+                                <option value="0" disabled selected hidden>No. Reservación</option>
+                                @foreach (var res in reservaciones)
+                                {
+                                    <option value="@res.Id">Reserva #@res.Id</option>
+                                }
                             </select>
                             <i class="bi bi-chevron-down orders-icon-right"></i>
                         </div>
                     </div>
 
-                    <!-- Selector: Platillo (ID de la API) -->
+                    <!-- Select para escoger platillo o bebida -->
                     <div class="col-md-4">
                         <label for="platilloId" class="orders-label">Platillo / Bebida</label>
                         <div class="orders-field-wrapper">
-                            <select id="platilloId" class="orders-control-select" required>
-                                <option value="" disabled selected hidden>Seleccione del menú...</option>
-                                <!-- Aquí mapeas los valores que vienen de tu API del menú -->
-                                <option value="6">Agua de horchata ($22)</option>
-                                <option value="5">Agua de jamaica ($20)</option>
-                                <option value="19">Arroz con leche ($30)</option>
+                            <select id="platilloId" class="orders-control-select" @bind="nuevoPedido.ProductoApiId" required>
+                                <option value="0" disabled selected hidden>Seleccione del menú...</option>
+                                @if (products != null)
+                                {
+                                    @foreach (var prod in products)
+                                    {
+                                        <option value="@prod.Id">@prod.Nombre </option>
+                                    }
+                                }
                             </select>
                             <i class="bi bi-chevron-down orders-icon-right"></i>
                         </div>
                     </div>
 
-                    <!-- Input: Cantidad -->
+                    <!-- Cantidad de pedidos -->
                     <div class="col-md-2">
                         <label for="cantidad" class="orders-label">Cantidad</label>
                         <div class="orders-field-wrapper">
                             <i class="bi bi-hash orders-icon-left"></i>
-                            <input type="number" id="cantidad" class="orders-control ps-5" min="1" value="1" required>
+                            <input type="number" @bind-value="nuevoPedido.Cantidad" id="cantidad" class="orders-control ps-5" min="1" @bind-value:event="oninput" required>
                         </div>
                     </div>
 
@@ -69,7 +73,7 @@
                         <div class="orders-field-wrapper">
                             <span class="currency-prefix">$</span>
                             <!-- readonly para que el usuario no altere el valor calculado -->
-                            <input type="number" id="precioTotal" class="orders-control currency-padding" readonly placeholder="0.00">
+                            <input type="number" value="@PrecioTotal" id="precioTotal" class="orders-control currency-padding" readonly>
                             <span class="currency-suffix">MXN</span>
                         </div>
                     </div>
@@ -79,66 +83,75 @@
                 <!-- Botón de Envío -->
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn-orders-submit">
-                        <i class="bi bi-send-fill me-2"></i> Agregar a Comanda
+                        <i class="bi bi-send-fill me-2"></i> Agregar Pedido
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- ==========================================================================
-       PANEL INFERIOR: TABLA DE ADMINISTRACIÓN (EDITAR/ELIMINAR)
-       ========================================================================== -->
-        <div class="orders-card">
-            <h2 class="panel-title mb-4"><i class="bi bi-list-stars me-2 text-gold"></i>Pedidos Activos en Sala</h2>
+        <!-- Tabla donde se muestran los datos de la tabla Pedidos. -->
 
-            <div class="table-responsive">
-                <table class="table orizon-table align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID Reserva</th>
-                            <th scope="col">Platillo (API ID)</th>
-                            <th scope="col" class="text-center">Cantidad</th>
-                            <th scope="col" class="text-end">Total Consumido</th>
-                            <th scope="col" class="text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Fila de ejemplo 1 -->
-                        <tr>
-                            <td><span class="badge-reserva">#5001</span></td>
-                            <td>
-                                <div class="fw-bold text-navy">Agua de horchata</div>
-                                <small class="text-muted">API ID: 6</small>
-                            </td>
-                            <td class="text-center fw-semibold text-navy">2</td>
-                            <td class="text-end fw-bold text-gold">$44.00</td>
-                            <td class="text-center">
-                                <div class="btn-group-actions">
-                                    <button class="btn-action-edit" title="Editar Pedido"><i class="bi bi-pencil-square"></i></button>
-                                    <button class="btn-action-delete" title="Eliminar Pedido"><i class="bi bi-trash3"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Fila de ejemplo 2 -->
-                        <tr>
-                            <td><span class="badge-reserva">#5002</span></td>
-                            <td>
-                                <div class="fw-bold text-navy">Arroz con leche</div>
-                                <small class="text-muted">API ID: 19</small>
-                            </td>
-                            <td class="text-center fw-semibold text-navy">1</td>
-                            <td class="text-end fw-bold text-gold">$30.00</td>
-                            <td class="text-center">
-                                <div class="btn-group-actions">
-                                    <button class="btn-action-edit" title="Editar Pedido"><i class="bi bi-pencil-square"></i></button>
-                                    <button class="btn-action-delete" title="Eliminar Pedido"><i class="bi bi-trash3"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        @if (products == null)
+        {
+            <div class="spinner-container text-center">
+                <p>Cargando pedidos...</p>
+                <div class="spinner-border text-primary" role="status"></div>
             </div>
-        </div>
+        }
+        else
+        {
+            @if (pedidos.Count != 0)
+            {
+                <div class="orders-card">
+                    <h2 class="panel-title mb-4"><i class="bi bi-list-stars me-2 text-gold"></i>Pedidos Activos en Sala</h2>
+                    <div class="table-responsive">
+                        <table class="table orizon-table align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID Reserva</th>
+                                    <th scope="col">Platillo</th>
+                                    <th scope="col" class="text-center">Cantidad</th>
+                                    <th scope="col" class="text-end">Total Consumido</th>
+                                    <th scope="col" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pedido in pedidos)
+                                {
+                                    // Busca el platillo específico de la lista. Si products está vacia devuelve null. Sino, busca el primer valor de la lista de productos de la API que sea igual al Id de ProductoApiId de Pedidos. Si no encuentra nignuno, regresa null.
+                                    var platilloPedido = products?.FirstOrDefault(p => p.Id == pedido.ProductoApiId);
+
+                                    <tr>
+                                        <td><span class="badge-reserva">#@pedido.ReservacionId</span></td>
+
+                                        <td class="fw-bold text-navy">
+                                            @if (platilloPedido != null)
+                                            {
+                                                @platilloPedido.Nombre
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">Producto no encontrado</span>
+                                            }
+                                        </td>
+
+                                        <td class="text-center fw-semibold text-navy">@pedido.Cantidad</td>
+
+                                        <td class="text-end fw-bold text-gold">$ @pedido.Precio</td>
+                                        <td class="text-center">
+                                            <div class="btn-group-actions">
+                                                <button class="btn-action-edit" @onclick="() => EditarPedido(pedido)" title="Editar Pedido"><i class="bi bi-pencil-square"></i></button>
+                                                <button class="btn-action-delete" @onclick="() => EliminarPedido(pedido)" title="Eliminar Pedido"><i class="bi bi-trash3"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
 
         <div class="orders-card mb-5 mt-5 panel-editing-mode">
 
@@ -207,24 +220,42 @@
 @code {
     private bool mostrandoInput = false;
 
+    // Para iniciar edición.
+
+    private Pedido? pedidoEdicion = null;
+
     // Modelos y Listas
     private Pedido nuevoPedido = new Pedido
     {
         ReservacionId = 0,
         ProductoApiId = 0,
-        Cantidad = 0,
-        Precio = 0
+        Cantidad = 1,
+        Precio = 0.0m
     };
+
+    private List<Productos_API>? products;
 
     private List<Reservacion> reservaciones = [];
 
-    // 1. AÑADIMOS: Una lista para renderizar los pedidos en el HTML
     private List<Pedido> pedidos = [];
-
-    private Pedido? pedidoEdicion = null;
 
     protected override async Task OnInitializedAsync()
     {
+        try
+        {
+            //Pruebas cuando API no está disponible. Comentar cuando ya esté disponible.
+            string url = "https://localhost:7244/data/platillosDisponibles.json";
+
+            //API a descomentar cuando estén disponibles.
+            //string url = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos/disponibles";
+
+            products = await Http.GetFromJsonAsync<List<Productos_API>>(url);
+        }
+        catch (Exception ex)
+        {
+            // Manejo de errores por si la API falla
+            Console.WriteLine($"Error al recuperar los datos: {ex.Message}");
+        }
         await CargarDatos();
     }
 
@@ -235,36 +266,63 @@
         pedidos = await db.Pedidos.ToListAsync();
     }
 
-    private void IniciarEdicion(Pedido pedido)
+    
+    //---- Nuevo pedido ---
+
+    //Calcula el precio total del pedido (precio del producto de la api x cantidad del producto)
+    private decimal PrecioTotal
+    {
+        get
+        {
+            // Se busca el producto en la lista de productos de la API. Si la lista no está vacía, se busca el primer producto de la API cuyo Id coincida con el Id registrado en ProductoApiId.
+            var producto = products?.FirstOrDefault(p => p.Id == nuevoPedido.ProductoApiId);
+
+            // Si no existe, el total es 0. Si sí existe, hace la multiplicación.
+            return producto == null ? 0.00m : nuevoPedido.Cantidad * producto.Precio;
+        }
+    }
+
+    private async Task CargarPedidos()
+    {
+        pedidos = await db.Pedidos.ToListAsync();
+    }
+
+    private async Task AgregarPedido()
+    {
+        if (nuevoPedido.ReservacionId != 0 && nuevoPedido.ProductoApiId != 0)
+        {
+            nuevoPedido.Precio = PrecioTotal;
+
+            db.Pedidos.Add(nuevoPedido);
+
+            await db.SaveChangesAsync();
+
+            await CargarPedidos();
+
+            // Reiniciar el modelo para el siguiente registro
+            nuevoPedido = new Pedido
+            {
+                ReservacionId = 0,
+                ProductoApiId = 0,
+                Cantidad = 1,
+                Precio = 0.0m
+            };
+        }
+    }
+
+    // ---- Edición de pedido ----
+
+    private void EditarPedido(Pedido pedido)
     {
         pedidoEdicion = pedido;
     }
 
-    private async Task GuardarEdicion()
-    {
-        if (pedidoEdicion != null)
-        {
-            await db.SaveChangesAsync();
-            pedidoEdicion = null;
-            await CargarDatos(); // Ahora sí refrescará la lista de la pantalla
-        }
-    }
+    // ---- Eliminar registro ----
 
-    private void CancelarEdicion()
-    {
-        if (pedidoEdicion != null)
-        {
-            // Revierte los cambios en memoria si el usuario cancela
-            db.Entry(pedidoEdicion).State = EntityState.Unchanged;
-            pedidoEdicion = null;
-        }
-    }
-
-    // Corregido el nombre para que coincida con tu modelo Pedido
     private async Task EliminarPedido(Pedido pedido)
     {
         db.Pedidos.Remove(pedido);
         await db.SaveChangesAsync();
-        await CargarDatos(); // Ahora sí desaparecerá de la pantalla inmediatamente
+        await CargarPedidos();
     }
 }

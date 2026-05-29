@@ -24,7 +24,7 @@
         {
             @foreach (var cat in categorias)
             {
-                // Agrega a la lista platillos cuando se cumpla la condición del Where. p es un producto individual de la lista product. Si la categoría del producto coincide con el id de la categoría actual se guarda en la lista. 
+                // Agrega a la lista platillos cuando se cumpla la condición del Where. p es un producto individual de la lista product (de la API). Si la categoría del producto coincide con el id de la categoría actual se guarda en la lista. 
                 var platillosDeEstaCategoria = products.Where(p => p.CategoriaId == cat.Id).ToList();
 
                 // Verifica que la lista tenga elementos
@@ -95,9 +95,11 @@
             string urlProductos = "https://localhost:7244/data/platillos.json";
             string urlCategorias = "https://localhost:7244/data/categorias.json";
 
+            //APIs a descomentar cuando estén disponibles.
             //string urlProductos = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/platillos";
-            products = await Http.GetFromJsonAsync<List<Productos_API>>(urlProductos);
             //string urlCategorias = $"https://api-udec-pweb-aedec9hxbugye0am.westus3-01.azurewebsites.net/api/alimentacion/categorias";
+
+            products = await Http.GetFromJsonAsync<List<Productos_API>>(urlProductos);
             categorias = await Http.GetFromJsonAsync<List<Categorias_API>>(urlCategorias);
         }
         catch (Exception ex)
