@@ -120,7 +120,8 @@
             <div class="col-md-5">
                 <div class="card-dash">
                     <h3 class="card-dash-status">CUPO LIMITADO</h3>
-                    <span class="card-dash-counter"> @reservaciones.Count() </span>
+                    <!-- Cuenta solo las reservaciones cuyo estado sea Confirmada -->
+                    <span class="card-dash-counter"> @reservaciones.Count(r => r.Estado == "Confirmada") </span>
                     <h4 class="card-dash-label">RESERVACIONES CONFIRMADAS</h4>
                     <p class="card-dash-description">Garantice su lugar en el muelle privado. Mantenemos un aforo estrictamente reducido para preservar la exclusividad.</p>
                     <a href="reservar" class="card-dash-link highlight-link">

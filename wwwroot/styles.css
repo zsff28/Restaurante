@@ -1316,3 +1316,521 @@
         background-color: rgba(79, 109, 122, 0.08);
         border-color: #0B1D2E;
     }
+
+/* ==== Reservaciones ===== */
+
+/* Títulos de la Vista */
+.view-title {
+    font-family: 'Outfit', Georgia, serif;
+    color: #0B1D2E; /* Azul Abisal */
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.view-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+}
+
+/* Contenedor de la Tabla */
+.orizon-table-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(11, 29, 46, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(11, 29, 46, 0.03);
+    overflow: hidden;
+}
+
+/* Estructura de la Tabla */
+.orizon-table {
+    margin-bottom: 0;
+}
+
+    .orizon-table thead th {
+        font-family: 'Outfit', sans-serif;
+        background-color: #F8F9FA;
+        color: #4F6D7A; /* Azul Cadete */
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 600;
+        padding: 1.2rem 1.5rem;
+        border-bottom: 2px solid rgba(11, 29, 46, 0.05);
+    }
+
+    .orizon-table tbody tr {
+        transition: background-color 0.2s ease;
+        border-bottom: 1px solid rgba(11, 29, 46, 0.04);
+    }
+
+        .orizon-table tbody tr:hover {
+            background-color: rgba(166, 138, 100, 0.03); /* Toque sutil Champaña al pasar el cursor */
+        }
+
+    .orizon-table tbody td {
+        padding: 1.4rem 1.5rem;
+    }
+
+/* Identificadores (IDs) */
+.table-id-badge {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: #0B1D2E;
+    background-color: rgba(11, 29, 46, 0.05);
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+/* Relación Cliente / FK */
+.client-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    color: #0B1D2E;
+    font-size: 0.95rem;
+}
+
+/* Fechas y Totales */
+.table-date {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: #2C3E50;
+}
+
+.table-time {
+    display: block;
+    font-size: 0.8rem;
+    color: #7F8C8D;
+}
+
+.table-total {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: #0B1D2E;
+}
+
+.currency-tag {
+    font-size: 0.7rem;
+    color: #A68A64;
+    font-weight: 400;
+}
+
+/* Badges de Estado Avanzados */
+.status-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 30px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.status-confirmed {
+    background-color: rgba(46, 204, 113, 0.12);
+    color: #1E7E34;
+}
+
+.status-cancelled {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #C0392B;
+}
+
+/* Botones de Acción de Fila */
+.action-buttons-group {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
+.btn-action-edit, .btn-action-delete {
+    background: none;
+    border: 1px solid transparent;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn-action-edit {
+    color: #4F6D7A;
+}
+
+    .btn-action-edit:hover {
+        color: #A68A64;
+        background-color: rgba(166, 138, 100, 0.1);
+        border-color: rgba(166, 138, 100, 0.2);
+    }
+
+.btn-action-delete {
+    color: rgba(231, 76, 60, 0.6);
+}
+
+    .btn-action-delete:hover {
+        color: #C0392B;
+        background-color: rgba(231, 76, 60, 0.1);
+        border-color: rgba(231, 76, 60, 0.2);
+    }
+
+/* Botón Global Primario (Estilo Náutico de Lujo) */
+.btn-orizon-primary {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    background-color: #0B1D2E;
+    color: #FFFFFF;
+    border: 1px solid #0B1D2E;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .btn-orizon-primary:hover {
+        background-color: #A68A64;
+        border-color: #A68A64;
+        color: #0B1D2E;
+    }
+
+/* ==== Reservaciones Editar ==== */
+
+/* Títulos de la Vista */
+.view-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #0B1D2E; /* Azul Abisal */
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+.view-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+}
+
+/* Contenedor de la Tabla */
+.orizon-table-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(11, 29, 46, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(11, 29, 46, 0.03);
+    overflow: hidden;
+}
+
+/* Estructura de la Tabla */
+.orizon-table {
+    margin-bottom: 0;
+}
+.orizon-table thead th {
+    font-family: 'Outfit', sans-serif;
+    background-color: #F8F9FA;
+    color: #4F6D7A; /* Azul Cadete */
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 2px solid rgba(11, 29, 46, 0.05);
+}
+.orizon-table tbody tr {
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid rgba(11, 29, 46, 0.04);
+}
+.orizon-table tbody tr:hover {
+    background-color: rgba(166, 138, 100, 0.03); /* Toque sutil Champaña al pasar el cursor */
+}
+.orizon-table tbody td {
+    padding: 1.4rem 1.5rem;
+}
+
+/* Identificadores (IDs) */
+.table-id-badge {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: #0B1D2E;
+    background-color: rgba(11, 29, 46, 0.05);
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+/* Relación Cliente / FK */
+.client-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    color: #0B1D2E;
+    font-size: 0.95rem;
+}
+.client-fk {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #A68A64; /* Oro Viejo */
+    display: block;
+    margin-top: 2px;
+}
+
+/* Fechas y Totales */
+.table-date {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: #2C3E50;
+}
+.table-time {
+    display: block;
+    font-size: 0.8rem;
+    color: #7F8C8D;
+}
+.table-total {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: #0B1D2E;
+}
+.currency-tag {
+    font-size: 0.7rem;
+    color: #A68A64;
+    font-weight: 400;
+}
+
+/* Badges de Estado Avanzados */
+.status-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 30px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+.status-confirmed {
+    background-color: rgba(46, 204, 113, 0.12);
+    color: #1E7E34;
+}
+.status-pending {
+    background-color: rgba(241, 196, 15, 0.15);
+    color: #9A7D0A;
+}
+.status-cancelled {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #C0392B;
+}
+
+/* Botones de Acción de Fila */
+.action-buttons-group {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+.btn-action-edit, .btn-action-delete {
+    background: none;
+    border: 1px solid transparent;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+.btn-action-edit {
+    color: #4F6D7A;
+}
+.btn-action-edit:hover {
+    color: #A68A64;
+    background-color: rgba(166, 138, 100, 0.1);
+    border-color: rgba(166, 138, 100, 0.2);
+}
+.btn-action-delete {
+    color: rgba(231, 76, 60, 0.6);
+}
+.btn-action-delete:hover {
+    color: #C0392B;
+    background-color: rgba(231, 76, 60, 0.1);
+    border-color: rgba(231, 76, 60, 0.2);
+}
+
+/* Botón Global Primario (Estilo Náutico de Lujo) */
+.btn-orizon-primary {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    background-color: #0B1D2E;
+    color: #FFFFFF;
+    border: 1px solid #0B1D2E;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-orizon-primary:hover {
+    background-color: #A68A64;
+    border-color: #A68A64;
+    color: #0B1D2E;
+}
+
+/* Edición reservar */
+
+.orizon-edit-card {
+    background: #FFFFFF;
+    border: 1px solid #A68A64; /* Borde permanente en Oro Viejo para indicar edición */
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(166, 138, 100, 0.08);
+    padding: 2rem;
+    max-width: 1200px; /* Evita que el formulario sea tosco y gigante en pantallas anchas */
+    margin: 0 auto; /* Centrado horizontal automático */
+}
+
+/* Indicador de diseño náutico al lado del título */
+.edit-card-header .header-indicator {
+    width: 4px;
+    height: 35px;
+    background-color: #A68A64;
+    margin-right: 12px;
+    border-radius: 2px;
+}
+
+.edit-card-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #0B1D2E;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.edit-card-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+}
+
+/* Estilización de Etiquetas e Inputs */
+.orizon-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #4F6D7A;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    display: block;
+}
+
+.orizon-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Controles de entrada de datos (Inputs) */
+.orizon-control, .orizon-control-select {
+    width: 100%;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.65rem 1rem 0.65rem 2.8rem; /* Espacio izquierdo para el icono */
+    color: #0B1D2E;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(11, 29, 46, 0.15);
+    border-radius: 4px;
+    transition: all 0.25s ease;
+}
+
+/* Estado activo de edición en inputs */
+.control-active {
+    border-color: rgba(166, 138, 100, 0.4);
+}
+
+.orizon-control:focus, .orizon-control-select:focus {
+    outline: none;
+    border-color: #A68A64;
+    box-shadow: 0 0 0 3px rgba(166, 138, 100, 0.1);
+}
+
+/* Iconografía y Prefijos de Moneda */
+.orizon-icon-left {
+    position: absolute;
+    left: 1rem;
+    color: #A68A64; /* Oro Viejo para los iconos interiores */
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.orizon-icon-right {
+    position: absolute;
+    right: 1rem;
+    color: #4F6D7A;
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+.orizon-currency-prefix {
+    position: absolute;
+    left: 1.1rem;
+    color: #A68A64;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+}
+
+.orizon-currency-suffix {
+    position: absolute;
+    right: 1rem;
+    font-size: 0.7rem;
+    color: #4F6D7A;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.currency-padding {
+    padding-left: 2.2rem;
+    padding-right: 3.5rem;
+}
+
+/* Limpieza del input select por defecto de los navegadores */
+.orizon-control-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+/* --- Botonera del Formulario de Edición --- */
+
+.btn-orizon-save {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background-color: #0B1D2E; /* Azul Abisal */
+    border: 1px solid #0B1D2E;
+    border-radius: 4px;
+    padding: 0.7rem 1.8rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+    .btn-orizon-save:hover {
+        background-color: #A68A64;
+        border-color: #A68A64;
+        color: #0B1D2E;
+    }
+
+.btn-orizon-cancel {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: #4F6D7A;
+    background: transparent;
+    border: 1px solid rgba(79, 109, 122, 0.2);
+    border-radius: 4px;
+    padding: 0.7rem 1.8rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+    .btn-orizon-cancel:hover {
+        color: #0B1D2E;
+        background-color: rgba(79, 109, 122, 0.05);
+        border-color: rgba(11, 29, 46, 0.3);
+    }
