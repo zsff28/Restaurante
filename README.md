@@ -38,3 +38,14 @@ Clientes
 Reservaciones
 <img width="1731" height="753" alt="image" src="https://github.com/user-attachments/assets/f5a665b4-c988-48e8-8f10-d7cb04b2546e" />
 
+--- Declaratoria de IA ---
+
+Se utilizó IA para el desarrollo de este proyecto, principalmente como ayuda para realizar el Mockup del proyecto, sugerencias sobre colores para el estilo náutico, tipografías, como guía para diseñar el logo (el logo es de autoría propia) y para redactar los textos de historia y los "pilares" que sostienen el negocio. También se usó para responder algunas dudas técnicas y solución de errores. Se adjuntan conversaciones. 
+
+https://gemini.google.com/share/8448183900e8
+https://gemini.google.com/share/93678473f4c3 -> *Nota: Al final no se hizo la migración pero se adjuntan las conversaciones.
+https://gemini.google.com/share/93678473f4c3 -> *Nota: Al final no se hizo la migración pero se adjuntan las conversaciones.
+https://gemini.google.com/share/058af92a0d14
+https://gemini.google.com/share/e187d1d63dbc
+https://gemini.google.com/share/fd927029e246
+https://gemini.google.com/share/3f788a98443a
