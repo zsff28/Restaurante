@@ -3,6 +3,7 @@
 @using Restaurante.Data
 @using Restaurante.Models
 @inject RestauranteDbContext db
+@inject IJSRuntime JS
 
 <div class="container-fluid px-4 py-5">
 
@@ -227,6 +228,11 @@
 
     private async Task EliminarReservacion(Reservacion res)
     {
+        /*Ejecuta de manera asíncrona ("saliéndose" temporalmente de c#), con await*/
+        bool seguro = await JS.InvokeAsync<bool>("confirm", $"¿Seguro que desea eliminar la reservación?");
+
+        if (!seguro) return;
+
         db.Reservaciones.Remove(res);
         await db.SaveChangesAsync();
         await CargarReservaciones(); // Actualiza la tabla automáticamente
